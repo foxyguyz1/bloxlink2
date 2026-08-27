@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/proxy", "destination": "/api/proxy" },
+    { "source": "/api/proxy", "destination": "/api/proxy" },
+    { "source": "/api/roblox", "destination": "/api/roblox" },
+    { "source": "/api/webhook", "destination": "/api/webhook" },
+    { "source": "/features", "destination": "/features/index.html" },
+    { "source": "/commands", "destination": "/commands/index.html" },
+    { "source": "/pricing", "destination": "/pricing/index.html" },
+    { "source": "/support", "destination": "/support/index.html" },
+    { "source": "/dashboard", "destination": "/dashboard/index.html" }
+  ]
+}

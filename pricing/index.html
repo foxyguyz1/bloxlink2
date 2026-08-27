@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing | Bloxlink</title>
+  <link rel="icon" href="https://blox.link/brand/favicon/favicon-32x32.png?v=693egPWNnr" type="image/png" sizes="32x32">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; background: #0f1117; color: #fff; }
+    #navDropdown { opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .15s ease, transform .15s ease, visibility .15s; }
+  </style>
+</head>
+<body class="bg-[#0f1117]">
+
+<!-- Top Banner -->
+<div class="flex items-center gap-2 bg-indigo-400/10 justify-center px-4 py-2">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-white flex-shrink-0">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>
+  </svg>
+  <div class="text-sm text-gray-300">
+    We've updated our <a class="text-blue-400 hover:underline" href="#">Terms of Service</a>, <a class="text-blue-400 hover:underline" href="#">Privacy Policy</a>, and <a class="text-blue-400 hover:underline" href="#">Purchase Policy</a> effective February 10, 2026.
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="py-4 border-b border-gray-800 bg-[#0f1117]">
+  <div class="max-w-7xl flex items-center mx-auto px-6 gap-4 justify-between">
+    <div class="flex gap-6 items-center">
+      <span class="cursor-default">
+        <img src="/assets/wordmark.svg" alt="Bloxlink" class="h-10" onerror="this.src='https://blox.link/wordmark.svg'">
+      </span>
+      <div class="hidden md:flex gap-6">
+        <a href="/features" class="text-gray-400 hover:text-white text-sm">Features</a>
+        <a href="/commands" class="text-gray-400 hover:text-white text-sm">Commands</a>
+        <a href="/pricing" class="text-white font-semibold text-sm">Pricing</a>
+        <a href="/support" class="text-gray-400 hover:text-white text-sm">Support</a>
+      </div>
+    </div>
+    <div class="relative">
+      <div id="navChip" class="flex items-center gap-2 cursor-pointer rounded-md px-2 py-1.5 hover:bg-gray-800 transition-colors select-none">
+        <img id="navAvatar" src="/assets/avatar.png" alt="avatar" class="w-8 h-8 rounded-full object-cover">
+        <span id="navUsername" class="text-sm font-medium text-white">Loading...</span>
+        <svg class="nav-chevron w-4 h-4 text-gray-400 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+        </svg>
+      </div>
+      <div id="navDropdown" class="absolute right-0 top-full mt-1 w-44 bg-[#1a1d27] border border-gray-700 rounded-lg shadow-2xl z-50 overflow-hidden">
+        <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-[#252836] transition-colors">
+          <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"/></svg>
+          Dashboard
+        </a>
+        <div class="border-t border-gray-700"></div>
+        <a id="navLogoutBtn" href="#" class="flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-[#252836] transition-colors">
+          <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/></svg>
+          Log out
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE CONTENT -->
+<div class="max-w-5xl mx-auto px-6 py-12">
+  <h1 class="text-3xl font-bold text-white mb-1">Pricing</h1>
+  <p class="text-gray-400 text-sm mb-10">
+    <span class="text-indigo-400">Bloxlink Premium</span> allows you to upgrade your <span class="text-indigo-400">Discord</span> servers, and unlocks perks for your <span class="text-indigo-400">Discord</span> accounts.
+  </p>
+
+  <!-- Billing toggle -->
+  <div class="flex items-center gap-2 justify-center mb-10">
+    <button class="bg-indigo-600 text-white text-sm font-medium px-4 py-1.5 rounded-md">Monthly Billing</button>
+    <button class="bg-[#1a1d27] text-gray-400 hover:text-white text-sm font-medium px-4 py-1.5 rounded-md transition-colors">Yearly Billing</button>
+    <button class="bg-[#1a1d27] text-gray-400 hover:text-white text-sm font-medium px-4 py-1.5 rounded-md transition-colors">Lifetime Billing</button>
+  </div>
+
+  <!-- Pricing cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Free -->
+    <div class="bg-[#1a1d27] border border-gray-700 rounded-xl p-8 flex flex-col items-center text-center">
+      <div class="w-16 h-16 mb-4 flex items-center justify-center">
+        <img src="https://blox.link/bloxlink/free-tier.png" alt="Free" class="w-full h-full object-contain" onerror="this.style.display='none'">
+      </div>
+      <h2 class="text-xl font-bold text-white mb-2">Free</h2>
+      <p class="text-gray-400 text-sm mb-6">Get the essentials for free with Bloxlink.</p>
+      <div class="mb-6">
+        <span class="text-4xl font-bold text-white">$0.00</span>
+        <span class="text-gray-400 text-sm">/month</span>
+      </div>
+      <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors mb-6">Get Started</button>
+      <ul class="text-sm text-gray-300 space-y-2 text-left w-full">
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Basic Commands</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Join and leave messages</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Up to 50 binds</li>
+      </ul>
+    </div>
+
+    <!-- Basic Premium -->
+    <div class="bg-[#1a1d27] border-2 border-indigo-500 rounded-xl p-8 flex flex-col items-center text-center relative">
+      <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</div>
+      <div class="w-16 h-16 mb-4 flex items-center justify-center">
+        <img src="https://blox.link/bloxlink/basic-premium.png" alt="Basic" class="w-full h-full object-contain" onerror="this.style.display='none'">
+      </div>
+      <h2 class="text-xl font-bold text-white mb-2">Basic Premium</h2>
+      <p class="text-gray-400 text-sm mb-6">Take advantage of extra features that keep your server running smoothly.</p>
+      <div class="mb-6">
+        <span class="text-4xl font-bold text-white">$5.99</span>
+        <span class="text-gray-400 text-sm">/month</span>
+      </div>
+      <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors mb-6">Get Started</button>
+      <ul class="text-sm text-gray-300 space-y-2 text-left w-full">
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg><span class="text-indigo-400">Premium</span> Commands</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Join and leave messages</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Up to 200 binds</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Lock your server with up to 15 groups</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Verify everyone in your server</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Set an account age requirement</li>
+      </ul>
+    </div>
+
+    <!-- Bloxlink Pro -->
+    <div class="bg-[#1a1d27] border border-gray-700 rounded-xl p-8 flex flex-col items-center text-center">
+      <div class="w-16 h-16 mb-4 flex items-center justify-center">
+        <img src="https://blox.link/bloxlink/pro-tier.png" alt="Pro" class="w-full h-full object-contain" onerror="this.style.display='none'">
+      </div>
+      <h2 class="text-xl font-bold text-white mb-2">Bloxlink Pro</h2>
+      <p class="text-gray-400 text-sm mb-6">Make Bloxlink your own with access to all of our features and our exclusive Pro bot.</p>
+      <div class="mb-6">
+        <span class="text-4xl font-bold text-white">$9.99</span>
+        <span class="text-gray-400 text-sm">/month</span>
+      </div>
+      <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors mb-6">Get Started</button>
+      <ul class="text-sm text-gray-300 space-y-2 text-left w-full">
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg><span class="text-indigo-400">Premium</span> Commands</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Join and leave messages</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg><span class="text-indigo-400">Unlimited</span> binds</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Lock your server with up to <span class="text-indigo-400 mx-1">unlimited</span> groups</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initUserNav } from '/js/user-nav.js';
+  initUserNav({ chipId: 'navChip', avatarId: 'navAvatar', nameId: 'navUsername', dropdownId: 'navDropdown' });
+</script>
+</body>
+</html>

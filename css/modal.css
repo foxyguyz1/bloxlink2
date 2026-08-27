@@ -1,0 +1,238 @@
+/* ========================================================= */
+/* Bloxlink Verification Popup & Modal Design System         */
+/* ========================================================= */
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.3s ease;
+  padding: 20px;
+}
+
+.popup-overlay.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.popup-container {
+  background: #0d0f14;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  width: 92vw;
+  max-width: 1280px;
+  height: 84vh;
+  max-height: 860px;
+  min-height: 560px;
+  overflow: hidden;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.9);
+  animation: slideUp 0.35s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-container.expanded {
+  width: 94vw;
+  height: 92vh;
+}
+
+#iframeContent {
+  width: 100%;
+  height: calc(100% - 45px);
+  overflow: hidden;
+  position: relative;
+  background: #313338;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#discordIframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+@media (max-width: 900px) {
+  .popup-container.expanded {
+    width: 96vw;
+    height: 94vh;
+  }
+}
+
+.roblox-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3.5px solid rgba(0, 162, 255, 0.12);
+  border-top-color: #00a2ff;
+  border-right-color: #00a2ff;
+  border-radius: 50%;
+  animation: spinRoblox 0.75s linear infinite;
+}
+
+@keyframes spinRoblox {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal Header */
+.popup-header {
+  background: #20242d;
+  padding: 12px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.popup-header-brand {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #cbd5e1;
+  letter-spacing: 0.2px;
+}
+
+.popup-close {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 22px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+  line-height: 1;
+  padding: 0;
+}
+
+.popup-close:hover {
+  color: #ffffff;
+  opacity: 1;
+}
+
+.popup-content {
+  padding: 36px 30px;
+  text-align: center;
+}
+
+.popup-logo {
+  margin-bottom: 22px;
+}
+
+.popup-logo img {
+  width: 170px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.popup-content h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+  color: #ffffff;
+}
+
+.popup-content p {
+  font-size: 14px;
+  opacity: 0.75;
+  margin-bottom: 28px;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+  color: #cbd5e1;
+}
+
+.popup-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-continue {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  border: none;
+  padding: 13px 24px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+  letter-spacing: 0.4px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.btn-continue:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+}
+
+.btn-return {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 13px 24px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.btn-return:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.iframe-content {
+  padding: 0;
+  width: 100%;
+  height: calc(90vh - 53px);
+}
+
+.content-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #0d0f14;
+}
+
+/* Dropdown Animation */
+#userDropdownMenu.open {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}

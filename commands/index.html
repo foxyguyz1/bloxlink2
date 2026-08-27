@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bot Commands | Bloxlink</title>
+  <link rel="icon" href="https://blox.link/brand/favicon/favicon-32x32.png?v=693egPWNnr" type="image/png" sizes="32x32">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; background: #0f1117; color: #fff; }
+    #navDropdown { opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .15s ease, transform .15s ease, visibility .15s; }
+  </style>
+</head>
+<body class="bg-[#0f1117]">
+
+<!-- NAVBAR -->
+<nav class="py-4 border-b border-gray-800 bg-[#0f1117]">
+  <div class="max-w-7xl flex items-center mx-auto px-6 gap-4 justify-between">
+    <div class="flex gap-6 items-center">
+      <span class="cursor-default">
+        <img src="/assets/wordmark.svg" alt="Bloxlink" class="h-10" onerror="this.src='https://blox.link/wordmark.svg'">
+      </span>
+      <div class="hidden md:flex gap-6">
+        <a href="/features" class="text-gray-400 hover:text-white text-sm">Features</a>
+        <a href="/commands" class="text-white font-semibold text-sm">Commands</a>
+        <a href="/pricing" class="text-gray-400 hover:text-white text-sm">Pricing</a>
+        <a href="/support" class="text-gray-400 hover:text-white text-sm">Support</a>
+      </div>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="/dashboard" class="text-sm text-gray-300 hover:text-white">Go to Dashboard</a>
+      <div class="relative">
+        <div id="navChip" class="flex items-center gap-2 cursor-pointer rounded-md px-2 py-1.5 hover:bg-gray-800 transition-colors select-none">
+          <img id="navAvatar" src="/assets/avatar.png" alt="avatar" class="w-8 h-8 rounded-full object-cover">
+          <div class="flex flex-col leading-none">
+            <span id="navUsername" class="text-sm font-medium text-white">Loading...</span>
+            <span class="text-xs text-red-400">Not the right account?</span>
+          </div>
+          <svg class="nav-chevron w-4 h-4 text-gray-400 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+          </svg>
+        </div>
+        <div id="navDropdown" class="absolute right-0 top-full mt-1 w-44 bg-[#1a1d27] border border-gray-700 rounded-lg shadow-2xl z-50 overflow-hidden">
+          <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-[#252836] transition-colors">
+            <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"/></svg>
+            Dashboard
+          </a>
+          <div class="border-t border-gray-700"></div>
+          <a id="navLogoutBtn" href="#" class="flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-[#252836] transition-colors">
+            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/></svg>
+            Log out
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE CONTENT -->
+<div class="max-w-7xl mx-auto px-6 py-12">
+  <h1 class="text-3xl font-bold text-white mb-1">Available Discord Commands</h1>
+  <p class="text-gray-400 text-sm mb-10 flex items-center gap-1">
+    <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg>
+    This is a list of <span class="text-blue-400 mx-1">all</span> available Discord Commands that Bloxlink provides.
+  </p>
+
+  <h2 class="text-white font-semibold text-lg mb-4">All</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Commands list -->
+    <div class="bg-[#1a1d27] border border-gray-800 rounded-lg p-5">
+      <p class="text-white font-semibold mb-1">/invite</p>
+      <p class="text-gray-400 text-sm mb-3">invite the bot to your server</p>
+      <a href="#" class="text-sm text-white font-medium flex items-center gap-1 hover:text-gray-300">Learn more <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a>
+    </div>
+    <div class="bg-[#1a1d27] border border-gray-800 rounded-lg p-5">
+      <p class="text-white font-semibold mb-1">/grouplock</p>
+      <p class="text-gray-400 text-sm mb-3">lock your server to group members</p>
+      <a href="#" class="text-sm text-white font-medium flex items-center gap-1 hover:text-gray-300">Learn more <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a>
+    </div>
+    <div class="bg-[#1a1d27] border border-gray-800 rounded-lg p-5">
+      <p class="text-white font-semibold mb-1">/getinfo</p>
+      <p class="text-gray-400 text-sm mb-3">retrieve the Roblox information of a user</p>
+      <a href="#" class="text-sm text-white font-medium flex items-center gap-1 hover:text-gray-300">Learn more <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a>
+    </div>
+    <div class="bg-[#1a1d27] border border-gray-800 rounded-lg p-5">
+      <p class="text-white font-semibold mb-1">/update</p>
+      <p class="text-gray-400 text-sm mb-3">force update user(s) with roles and nicknames</p>
+      <a href="#" class="text-sm text-white font-medium flex items-center gap-1 hover:text-gray-300">Learn more <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a>
+    </div>
+    <div class="bg-[#1a1d27] border border-gray-800 rounded-lg p-5">
+      <p class="text-white font-semibold mb-1">/bump</p>
+      <p class="text-gray-400 text-sm mb-3">bump your server on Bloxlink Communities</p>
+      <a href="#" class="text-sm text-white font-medium flex items-center gap-1 hover:text-gray-300">Learn more <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a>
+    </div>
+    <div class="bg-[#1a1d27] border border-gray-800 rounded-lg p-5">
+      <p class="text-white font-semibold mb-1">/ignorechannel</p>
+      <p class="text-gray-400 text-sm mb-3">enable/disable commands from a channel</p>
+      <a href="#" class="text-sm text-white font-medium flex items-center gap-1 hover:text-gray-300">Learn more <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a>
+    </div>
+    <div class="bg-[#1a1d27] border border-gray-800 rounded-lg p-5">
+      <p class="text-white font-semibold mb-1">/viewbinds</p>
+      <p class="text-gray-400 text-sm mb-3">view your server bound roles</p>
+      <a href="#" class="text-sm text-white font-medium flex items-center gap-1 hover:text-gray-300">Learn more <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a>
+    </div>
+    <div class="bg-[#1a1d27] border border-gray-800 rounded-lg p-5">
+      <p class="text-white font-semibold mb-1">/status</p>
+      <p class="text-gray-400 text-sm mb-3">view your Bloxlink premium status</p>
+      <a href="#" class="text-sm text-white font-medium flex items-center gap-1 hover:text-gray-300">Learn more <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a>
+    </div>
+    <div class="bg-[#1a1d27] border border-gray-800 rounded-lg p-5">
+      <p class="text-white font-semibold mb-1">/verify</p>
+      <p class="text-gray-400 text-sm mb-3">link your Roblox account to Discord</p>
+      <a href="#" class="text-sm text-white font-medium flex items-center gap-1 hover:text-gray-300">Learn more <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a>
+    </div>
+    <div class="bg-[#1a1d27] border border-gray-800 rounded-lg p-5">
+      <p class="text-white font-semibold mb-1">/bind</p>
+      <p class="text-gray-400 text-sm mb-3">bind a Roblox group rank to a Discord role</p>
+      <a href="#" class="text-sm text-white font-medium flex items-center gap-1 hover:text-gray-300">Learn more <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initUserNav } from '/js/user-nav.js';
+  initUserNav({ chipId: 'navChip', avatarId: 'navAvatar', nameId: 'navUsername', dropdownId: 'navDropdown' });
+</script>
+</body>
+</html>
