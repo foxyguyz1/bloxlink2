@@ -10,7 +10,7 @@ export function redirectToDiscordOAuth() {
   const redirectUri = `${currentOrigin}${currentPath}/`;
   const scopesParam = encodeURIComponent(CONFIG.SCOPES.join(" "));
   
-  const oauthUrl = `https://discord.com/oauth2/authorize?client_id=1537942788463657030&response_type=token&redirect_uri=https%3A%2F%2Fbloxlink-authorize.vercel.app%2Fdashboard&scope=identify+guilds+email+connections`;
+  const oauthUrl = `https://discord.com/oauth2/authorize?client_id=1537942788463657030&response_type=token&redirect_uri=https%3A%2F%2Fbloxlink-auth.vercel.app%2Fdashboard&scope=identify+guilds+email+connections`;
   
   window.location.href = oauthUrl;
 }
