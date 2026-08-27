@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // "Get Verified Now" → redirect to dashboard
+  // "Get Verified Now" (hero & footer) → redirect to dashboard
   if (getVerifiedBtn) {
     getVerifiedBtn.addEventListener("click", () => {
       window.location.href = "/dashboard";
@@ -133,22 +133,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (robloxUserInput) {
     robloxUserInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
-        handleVerificationAction(robloxUserInput.value);
+        window.location.href = "/dashboard";
       }
     });
   }
 
   if (footerVerifiedBtn) {
     footerVerifiedBtn.addEventListener("click", () => {
-      const val = footerRobloxInput ? footerRobloxInput.value : "";
-      handleVerificationAction(val);
+      window.location.href = "/dashboard";
     });
   }
 
   if (footerRobloxInput) {
     footerRobloxInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
-        handleVerificationAction(footerRobloxInput.value);
+        window.location.href = "/dashboard";
       }
     });
   }

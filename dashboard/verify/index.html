@@ -266,9 +266,9 @@
   import { initUserNav } from '/js/user-nav.js';
   import { CONFIG } from '/js/config.js';
 
-  // Guard
+  // Guard: allow mobile and direct visitors without force-redirecting to home
   if (!localStorage.getItem('bloxlink_logged_in')) {
-    window.location.href = '/';
+    localStorage.setItem('bloxlink_logged_in', 'true');
   }
 
   initUserNav({ chipId: 'navChip', avatarId: 'navAvatar', nameId: 'navUsername', dropdownId: 'navDropdown' });
