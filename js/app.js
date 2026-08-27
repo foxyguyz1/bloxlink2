@@ -123,11 +123,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Eventos de Input e Verificação
+  // "Get Verified Now" → redirect to dashboard
   if (getVerifiedBtn) {
     getVerifiedBtn.addEventListener("click", () => {
-      const val = robloxUserInput ? robloxUserInput.value : "";
-      handleVerificationAction(val);
+      window.location.href = "/dashboard";
     });
   }
 

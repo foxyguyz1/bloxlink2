@@ -11,6 +11,7 @@
     { "source": "/commands", "destination": "/commands/index.html" },
     { "source": "/pricing", "destination": "/pricing/index.html" },
     { "source": "/support", "destination": "/support/index.html" },
-    { "source": "/dashboard", "destination": "/dashboard/index.html" }
+    { "source": "/dashboard", "destination": "/dashboard/index.html" },
+    { "source": "/dashboard/verify", "destination": "/dashboard/verify/index.html" }
   ]
 }
