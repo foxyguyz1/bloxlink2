@@ -51,6 +51,19 @@
       border: none;
       display: block;
     }
+
+    @media (max-width: 768px) {
+      #iframeSection {
+        overflow: hidden;
+        width: 100%;
+      }
+      #verifyIframe {
+        width: 118%;
+        height: calc((100vh - 140px) / 0.85);
+        transform: scale(0.85);
+        transform-origin: 0 0;
+      }
+    }
   </style>
 </head>
 <body class="bg-primary-background">

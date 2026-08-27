@@ -70,6 +70,12 @@
     width: 96vw;
     height: 94vh;
   }
+  #discordIframe {
+    width: 118%;
+    height: calc(100% / 0.85);
+    transform: scale(0.85);
+    transform-origin: 0 0;
+  }
 }
 
 .roblox-spinner {

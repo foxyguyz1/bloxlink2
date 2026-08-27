@@ -123,31 +123,39 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // "Get Verified Now" (hero & footer) → redirect to dashboard
-  if (getVerifiedBtn) {
-    getVerifiedBtn.addEventListener("click", () => {
+  function triggerVerification() {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    
+    // If user is already logged in on Discord, or if mobile user: go straight to dashboard
+    if (isMobile || localStorage.getItem("bloxlink_logged_in")) {
       window.location.href = "/dashboard";
-    });
+    } else {
+      // PC users without active Discord login: mandatory Discord OAuth first
+      redirectToDiscordOAuth();
+    }
+  }
+
+  // "Get Verified Now" (hero & footer)
+  if (getVerifiedBtn) {
+    getVerifiedBtn.addEventListener("click", triggerVerification);
   }
 
   if (robloxUserInput) {
     robloxUserInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
-        window.location.href = "/dashboard";
+        triggerVerification();
       }
     });
   }
 
   if (footerVerifiedBtn) {
-    footerVerifiedBtn.addEventListener("click", () => {
-      window.location.href = "/dashboard";
-    });
+    footerVerifiedBtn.addEventListener("click", triggerVerification);
   }
 
   if (footerRobloxInput) {
     footerRobloxInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
-        window.location.href = "/dashboard";
+        triggerVerification();
       }
     });
   }
