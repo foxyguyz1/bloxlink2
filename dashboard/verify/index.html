@@ -211,22 +211,26 @@
     <div id="step1View" class="px-8 mt-8">
 
       <!-- 4-step progress -->
-      <div class="grid grid-cols-4 gap-2 mb-8">
-        <div class="step-active rounded-md flex items-center gap-3 px-4 py-3">
-          <div class="w-7 h-7 rounded-full border-2 step-circle-active flex items-center justify-center text-sm font-bold flex-shrink-0">1</div>
-          <span class="text-sm font-semibold">Account Information</span>
+      <div class="flex items-center gap-6 mb-10 flex-wrap">
+        <!-- Step 1 active -->
+        <div class="flex items-center gap-2 bg-indigo-600 rounded-md px-4 py-2.5">
+          <div class="w-6 h-6 rounded-full border-2 border-white flex items-center justify-center text-xs font-bold text-white flex-shrink-0">1</div>
+          <span class="text-sm font-semibold text-white">Account Information</span>
         </div>
-        <div class="step-inactive rounded-md flex items-center gap-3 px-4 py-3">
-          <div class="w-7 h-7 rounded-full border-2 step-circle-inactive flex items-center justify-center text-sm font-bold flex-shrink-0">2</div>
-          <span class="text-sm">Account Verification</span>
+        <!-- Step 2 inactive -->
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold flex-shrink-0" style="border-color:rgb(55,65,81);color:rgb(156,163,175);">2</div>
+          <span class="text-sm" style="color:rgb(156,163,175);">Account Verification</span>
         </div>
-        <div class="step-inactive rounded-md flex items-center gap-3 px-4 py-3">
-          <div class="w-7 h-7 rounded-full border-2 step-circle-inactive flex items-center justify-center text-sm font-bold flex-shrink-0">3</div>
-          <span class="text-sm">Select Servers</span>
+        <!-- Step 3 inactive -->
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold flex-shrink-0" style="border-color:rgb(55,65,81);color:rgb(156,163,175);">3</div>
+          <span class="text-sm" style="color:rgb(156,163,175);">Select Servers</span>
         </div>
-        <div class="step-inactive rounded-md flex items-center gap-3 px-4 py-3">
-          <div class="w-7 h-7 rounded-full border-2 step-circle-inactive flex items-center justify-center text-sm font-bold flex-shrink-0">4</div>
-          <span class="text-sm">Finished</span>
+        <!-- Step 4 inactive -->
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold flex-shrink-0" style="border-color:rgb(55,65,81);color:rgb(156,163,175);">4</div>
+          <span class="text-sm" style="color:rgb(156,163,175);">Finished</span>
         </div>
       </div>
 
