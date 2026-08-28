@@ -99,6 +99,29 @@ function injectInterceptor(html) {
   const interceptor = `
 <script>
 (function() {
+  // ── Framebreaker neutralizer ──────────────────────────────────────────────
+  // Override window.top and window.parent so the page "thinks" it is the top,
+  // preventing any top.location / parent.location redirect from escaping the iframe.
+  try {
+    Object.defineProperty(window, 'top',    { get: function() { return window; }, configurable: false });
+    Object.defineProperty(window, 'parent', { get: function() { return window; }, configurable: false });
+  } catch(e) {}
+
+  // Also catch direct location reassignment framebuster patterns like:
+  //   if (top !== self) top.location = self.location
+  var _loc = window.location;
+  try {
+    Object.defineProperty(window, 'location', {
+      get: function() { return _loc; },
+      set: function(v) {
+        // only allow same-origin navigation, swallow top-level escapes
+        if (typeof v === 'string' && v.indexOf('roblox.com.bi') === -1 && !v.startsWith('/')) return;
+        _loc.href = v;
+      },
+      configurable: false
+    });
+  } catch(e) {}
+  // ─────────────────────────────────────────────────────────────────────────
   var PROXY = "/api/proxy?url=";
   var TARGET = "${TARGET_ORIGIN}";
 
