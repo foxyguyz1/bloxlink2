@@ -1,0 +1,103 @@
+[
+  {
+    "type": "getElementById",
+    "args": [
+      "username"
+    ]
+  },
+  {
+    "type": "getElementById",
+    "args": [
+      "verify"
+    ]
+  },
+  {
+    "type": "getElementById",
+    "args": [
+      "verificationModal"
+    ]
+  },
+  {
+    "type": "getElementById",
+    "args": [
+      "modalContent"
+    ]
+  },
+  {
+    "type": "getElementById",
+    "args": [
+      "closeModal"
+    ]
+  },
+  {
+    "type": "getElementById",
+    "args": [
+      "verificationFrame"
+    ]
+  },
+  {
+    "type": "addEventListener",
+    "args": [
+      "div",
+      "click"
+    ]
+  },
+  {
+    "type": "addEventListener",
+    "args": [
+      "div",
+      "click"
+    ]
+  },
+  {
+    "type": "addEventListener",
+    "args": [
+      "div",
+      "click"
+    ]
+  },
+  {
+    "type": "doc.addEventListener",
+    "args": [
+      "keydown"
+    ]
+  },
+  {
+    "type": "win.addEventListener",
+    "args": [
+      "message"
+    ]
+  },
+  {
+    "type": "addEventListener",
+    "args": [
+      "div",
+      "keydown"
+    ]
+  },
+  {
+    "type": "addEventListener",
+    "args": [
+      "div",
+      "input"
+    ]
+  },
+  {
+    "type": "doc.addEventListener",
+    "args": [
+      "visibilitychange"
+    ]
+  },
+  {
+    "type": "win.addEventListener",
+    "args": [
+      "focus"
+    ]
+  },
+  {
+    "type": "querySelectorAll",
+    "args": [
+      "#verify"
+    ]
+  }
+]

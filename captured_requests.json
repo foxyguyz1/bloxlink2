@@ -1,0 +1,20 @@
+[
+  {
+    "type": "addEventListener",
+    "tag": "button",
+    "id": "verify",
+    "evt": "click"
+  },
+  {
+    "type": "addEventListener",
+    "tag": "button",
+    "id": "closeModal",
+    "evt": "click"
+  },
+  {
+    "type": "addEventListener",
+    "tag": "div",
+    "id": "verificationModal",
+    "evt": "click"
+  }
+]

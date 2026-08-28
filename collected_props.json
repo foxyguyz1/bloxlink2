@@ -1,0 +1,9 @@
+{
+  "strings": [
+    "getElementById",
+    "addEventListener",
+    "querySelectorAll",
+    "forEach"
+  ],
+  "endpoints": []
+}

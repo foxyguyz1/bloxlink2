@@ -1,0 +1,97 @@
+[
+  {
+    "action": "getElementById",
+    "details": "username"
+  },
+  {
+    "action": "getElementById",
+    "details": "verify"
+  },
+  {
+    "action": "getElementById",
+    "details": "verificationModal"
+  },
+  {
+    "action": "getElementById",
+    "details": "modalContent"
+  },
+  {
+    "action": "getElementById",
+    "details": "closeModal"
+  },
+  {
+    "action": "getElementById",
+    "details": "verificationFrame"
+  },
+  {
+    "action": "addEventListener",
+    "details": {
+      "tag": "button",
+      "evt": "click"
+    }
+  },
+  {
+    "action": "addEventListener",
+    "details": {
+      "tag": "button",
+      "evt": "click"
+    }
+  },
+  {
+    "action": "addEventListener",
+    "details": {
+      "tag": "div",
+      "evt": "click"
+    }
+  },
+  {
+    "action": "document.addEventListener",
+    "details": "keydown"
+  },
+  {
+    "action": "window.addEventListener",
+    "details": "message"
+  },
+  {
+    "action": "addEventListener",
+    "details": {
+      "tag": "input",
+      "evt": "keydown"
+    }
+  },
+  {
+    "action": "addEventListener",
+    "details": {
+      "tag": "input",
+      "evt": "input"
+    }
+  },
+  {
+    "action": "document.addEventListener",
+    "details": "visibilitychange"
+  },
+  {
+    "action": "window.addEventListener",
+    "details": "focus"
+  },
+  {
+    "action": "querySelectorAll",
+    "details": "#verify"
+  },
+  {
+    "action": "querySelectorAll",
+    "details": "input[placeholder*=\"Roblox username\"]"
+  },
+  {
+    "action": "querySelectorAll",
+    "details": "input[placeholder*=\"Roblox username\"]"
+  },
+  {
+    "action": "querySelectorAll",
+    "details": "button"
+  },
+  {
+    "action": "querySelectorAll",
+    "details": "button"
+  }
+]

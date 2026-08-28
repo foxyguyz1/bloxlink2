@@ -347,7 +347,7 @@
 
     const iframe = document.getElementById('verifyIframe');
     if (iframe && (iframe.src === 'about:blank' || !iframe.src)) {
-      iframe.src = CONFIG.TARGET_URL;
+      iframe.src = CONFIG.PROXIED_TARGET_URL;
     }
   });
 

