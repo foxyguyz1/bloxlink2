@@ -41,15 +41,20 @@ const BROWSER_UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36";
 
 /**
- * Fetch via corsproxy.org relay
+ * Direct server-side fetch — no corsproxy.org needed.
+ * On Vercel serverless there is no browser CORS enforcement,
+ * so we hit the target directly and strip framing headers ourselves.
  */
 async function relayFetch(targetUrl, method, headers, body) {
-  const proxyUrl = `https://corsproxy.org/?${encodeURIComponent(targetUrl)}`;
-
   const fetchHeaders = {
     "User-Agent": BROWSER_UA,
     Accept: headers.accept || "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": headers["accept-language"] || "en-US,en;q=0.9",
+    "Accept-Encoding": "identity",   // prevents gzip so we can manipulate text
+    "Cache-Control": "no-cache",
+    Pragma: "no-cache",
+    Referer: TARGET_ORIGIN + "/",
+    Origin: TARGET_ORIGIN,
   };
 
   if (headers.cookie) fetchHeaders["Cookie"] = headers.cookie;
@@ -67,9 +72,9 @@ async function relayFetch(targetUrl, method, headers, body) {
   }
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 9000);
+  const timeoutId = setTimeout(() => controller.abort(), 12000);
 
-  const response = await fetch(proxyUrl, {
+  const response = await fetch(targetUrl, {
     ...fetchOptions,
     signal: controller.signal,
   });
@@ -83,11 +88,13 @@ async function relayFetch(targetUrl, method, headers, body) {
  * todas as sub-requisições pelo proxy
  */
 function injectInterceptor(html) {
-  // Remove CSP
+  // Strip ALL security-related meta http-equiv tags
   html = html.replace(
-    /<meta[^>]+http-equiv=["']?Content-Security-Policy["']?[^>]*>/gi,
+    /<meta[^>]+http-equiv=[\"']?(Content-Security-Policy|X-Frame-Options|Feature-Policy|Permissions-Policy)[\"']?[^>]*>/gi,
     ""
   );
+  // Also strip any inline frame-ancestors directives inside a style/script src
+  html = html.replace(/frame-ancestors[^;'"]*[;'"]/gi, "frame-ancestors *;");
 
   const interceptor = `
 <script>
@@ -189,8 +196,15 @@ export default async function handler(req, res) {
       }
     });
 
+    // Explicitly nuke any framing/CSP headers that may have slipped through,
+    // then set permissive replacements so the iframe loads cleanly.
+    res.removeHeader("X-Frame-Options");
+    res.removeHeader("Content-Security-Policy");
+    res.removeHeader("Content-Security-Policy-Report-Only");
     res.setHeader("X-Frame-Options", "ALLOWALL");
+    res.setHeader("Content-Security-Policy", "frame-ancestors *;");
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
 
     // HTML: injeta interceptor
     if (contentType.includes("text/html")) {
